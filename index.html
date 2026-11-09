@@ -49,7 +49,7 @@ header.top{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1
 .bar{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:72px}
 .brand{display:flex;align-items:center;gap:12px;text-decoration:none;font-weight:600;font-size:18px}
 .brand{font-weight:500}
-.mainnav{display:flex;gap:28px;margin-right:auto;margin-left:40px}
+.mainnav{display:flex;gap:28px;margin-left:auto}
 .mainnav a{font:400 15px var(--font);color:var(--ink);text-decoration:none;white-space:nowrap;padding:6px 0;border-bottom:1.5px solid transparent}
 .mainnav a:hover{border-bottom-color:var(--ink)}
 @media (max-width:899px){.bar{flex-wrap:wrap;row-gap:4px;padding-top:12px;padding-bottom:8px}.mainnav{order:3;width:100%;margin:0;gap:22px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}.mainnav::-webkit-scrollbar{display:none}}
@@ -324,10 +324,6 @@ img.ava{object-fit:cover;display:block}
       <a href="#testimonials" data-i="nav_tst">Testimonials</a>
       <a href="#contact" data-i="nav_contact">Contact</a>
     </nav>
-    <div class="lang" role="group" aria-label="Language">
-      <button type="button" id="lang-en" aria-pressed="true">EN</button>
-      <button type="button" id="lang-cz" aria-pressed="false">CZ</button>
-    </div>
   </div>
 </header>
 
@@ -762,7 +758,7 @@ const CASE_ORDER=["cyklus-trails","ivigee","karlin","villa-anezka","praha-bike",
 CASES.sort((a,b)=>CASE_ORDER.indexOf(a.id)-CASE_ORDER.indexOf(b.id));
 CASES.find(x=>x.id==="ivigee").story=IV_STORY;
 const MOTION = ["mo_italy.mp4","mo_prsi.mp4","iv_boutique.mp4","va_video_m.mp4","va_film.mp4","mo_squash.mp4","ct_social1.mp4","ct_video2.mp4","mo_praha.mp4","ct_social2.mp4","dk_flip.mp4"];
-const LANGS = ["en","cz"];
+const LANGS = ["en"];
 
 let lang = "en";
 try{ const v=localStorage.getItem("lang"); if(LANGS.includes(v)) lang=v; }catch(e){}
@@ -979,12 +975,12 @@ function fixWidows(root){
 function applyLang(){
   document.documentElement.lang = {en:"en",cz:"cs",ru:"ru"}[lang];
   document.querySelectorAll("[data-i]").forEach(e=>{const v=t(e.dataset.i); if(typeof v==="string") e.textContent=v;});
-  LANGS.forEach(l=>document.getElementById("lang-"+l).setAttribute("aria-pressed",String(l===lang)));
+  
   renderHero(); tyI=0; typeLoop(); renderGrid(); renderTesti();
   const oc=CASES.find(x=>x.id===location.hash.slice(1)); if(oc && !document.getElementById("case").hidden) renderCase(oc);
   fixWidows(document.body);
 }
-LANGS.forEach(l=>document.getElementById("lang-"+l).addEventListener("click",()=>{lang=l;try{localStorage.setItem("lang",l)}catch(e){} applyLang();}));
+
 window.addEventListener("hashchange",route);
 
 buildMarquee(document.getElementById("mq-motion"), MOTION, 70);
