@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anna Hložková Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: app-like calm. 8px grid, 24 / 40 / 80 px side margins, soft elevated cards, pills and list rows. Measured from the reference screens. */
+:root{--blue:#1B4DE0;
+  --bg:#FFFFFF; --ink:#222222; --muted:#6A6A6A; --line:#DDDDDD; --soft:#F7F7F7; --chip:#F2F2F2; --accent:#E5481F; --on-accent:#FFFFFF;
+  --font:"Inter", -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --r-card:16px; --r-panel:20px;
+  --shadow:0 6px 20px rgba(0,0,0,.08); --shadow-strong:0 6px 16px rgba(0,0,0,.12);
+  --gutter:24px;
+  color-scheme:light;
+}
+@media (min-width:744px){:root{--gutter:40px}}
+@media (min-width:1128px){:root{--gutter:80px}}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121212;--ink:#F2F2F2;--muted:#A3A3A3;--line:#333333;--soft:#1C1C1C;--chip:#262626;--accent:#FF6A3D;--on-accent:#121212;--shadow:0 6px 20px rgba(0,0,0,.5);--shadow-strong:0 6px 16px rgba(0,0,0,.6);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121212;--ink:#F2F2F2;--muted:#A3A3A3;--line:#333333;--soft:#1C1C1C;--chip:#262626;--accent:#FF6A3D;--on-accent:#121212;--shadow:0 6px 20px rgba(0,0,0,.5);--shadow-strong:0 6px 16px rgba(0,0,0,.6);color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+img,video{max-width:100%;display:block}
+a{color:inherit}
+a:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+h1,h2,h3{margin:0;font-weight:600;text-wrap:balance;letter-spacing:-0.01em}
+.wrap{max-width:1440px;margin:0 auto;padding-left:var(--gutter);padding-right:var(--gutter)}
+.muted{color:var(--muted)}
+
+/* buttons and pills */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;border-radius:12px;padding:0 20px;font:600 15px var(--font);text-decoration:none;border:1.5px solid var(--ink);color:var(--ink);background:var(--bg);cursor:pointer}
+.btn.solid{background:var(--ink);color:var(--bg)}
+.btn:hover{background:var(--soft)}
+.btn.solid:hover{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.pills{display:flex;gap:12px;overflow-x:auto;scrollbar-width:none;padding:4px 2px 8px}
+.pills::-webkit-scrollbar{display:none}
+.pill{flex:0 0 auto;min-height:40px;padding:0 18px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font:500 15px var(--font);text-decoration:none;display:inline-flex;align-items:center;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.pill:hover{border-color:var(--ink)}
+.pill[aria-pressed="true"]{background:var(--chip);border-color:var(--chip);font-weight:600}
+.circle{width:32px;height:32px;border-radius:50%;background:var(--chip);border:0;display:inline-flex;align-items:center;justify-content:center;color:var(--ink);text-decoration:none;flex:0 0 auto}
+.circle:hover{background:var(--line)}
+
+/* header */
+header.top{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:72px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;font-weight:600;font-size:18px}
+.brand{font-weight:500}
+.mainnav{display:flex;gap:28px;margin-right:auto;margin-left:40px}
+.mainnav a{font:400 15px var(--font);color:var(--ink);text-decoration:none;white-space:nowrap;padding:6px 0;border-bottom:1.5px solid transparent}
+.mainnav a:hover{border-bottom-color:var(--ink)}
+@media (max-width:899px){.bar{flex-wrap:wrap;row-gap:4px;padding-top:12px;padding-bottom:8px}.mainnav{order:3;width:100%;margin:0;gap:22px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}.mainnav::-webkit-scrollbar{display:none}}
+.lang{display:flex;gap:2px;border:1.5px solid var(--line);border-radius:12px;padding:3px}
+.lang button{font:600 13px var(--font);border:0;background:transparent;color:var(--muted);min-width:40px;min-height:32px;border-radius:9px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+
+/* section rhythm */
+.sec{padding:48px 0}
+@media (min-width:744px){.sec{padding:64px 0}}
+.sec-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px}
+.sec-head h2{font-size:22px;line-height:26px}
+@media (min-width:744px){.sec-head h2{font-size:26px;line-height:30px}}
+.rule{height:1px;background:var(--line);border:0;margin:0}
+
+/* hero */
+.hero{display:grid;gap:32px;padding:32px 0 48px}
+@media (min-width:950px){.hero{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:64px;align-items:center;padding:56px 0 72px}}
+.hero .eyebrow{font-size:13px;color:var(--muted);margin-bottom:14px;text-transform:uppercase;letter-spacing:.08em;font-weight:500}
+.hero .where{font-size:14px;color:var(--muted);margin:-8px 0 24px}
+.hero .hero-line{font-size:19px;line-height:32px;color:var(--muted);font-weight:400;margin-bottom:48px;max-width:560px}
+@media (min-width:744px){.hero .hero-line{font-size:22px;line-height:38px;margin-bottom:72px}}
+.hero-ava{display:inline-block;vertical-align:-12px;width:56px;height:56px;margin-right:14px;padding:0;border:0;border-radius:50%;overflow:hidden;cursor:zoom-in;background:var(--chip);transition:transform .2s}
+.hero-ava:hover{transform:scale(1.06)}
+.hero-ava img{width:100%;height:100%;object-fit:cover;filter:grayscale(1)}
+@media (min-width:744px){.hero-ava{width:72px;height:72px;vertical-align:-16px;margin-right:16px}}
+
+.hero-line .pick>button{border:1.5px solid #3D63DD;border-radius:12px;padding:0 8px 0 12px;font-weight:600;color:var(--ink);line-height:inherit;vertical-align:baseline}
+.hero-line .pick>button svg{color:#3D63DD}
+.hero h1{font-size:32px;line-height:40px;font-weight:600;letter-spacing:-.01em;margin-bottom:20px}
+@media (min-width:744px){.hero h1{font-size:46px;line-height:56px}}
+@media (max-width:420px){.hero h1{font-size:28px;line-height:36px}}
+.hero>div{min-width:0}
+.hero h1{overflow-wrap:break-word}
+.pick{position:relative;display:inline-block}
+.pick>button{font:inherit;color:var(--accent);background:transparent;border:2px solid var(--accent);border-radius:14px;padding:0 10px 2px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.pick ul{position:absolute;left:0;top:calc(100% + 8px);z-index:5;list-style:none;margin:0;padding:8px;min-width:220px;background:var(--bg);border-radius:var(--r-card);box-shadow:var(--shadow-strong)}
+.pick li button{width:100%;text-align:left;font:500 18px var(--font);border:0;border-radius:10px;padding:12px 14px;background:transparent;color:var(--ink);cursor:pointer}
+.pick li button:hover{background:var(--soft)}
+.pick li button[aria-selected="true"]{color:var(--accent);font-weight:600}
+.hero .lead{font-size:18px;line-height:28px;color:var(--muted);max-width:560px;margin:0 0 24px}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+.frame{aspect-ratio:4/5;border-radius:var(--r-panel);overflow:hidden;background:var(--soft)}
+.frame img,.frame video{width:100%;height:100%;object-fit:cover}
+.frame.contain{background:transparent;display:flex;align-items:center;justify-content:center;overflow:visible}
+@media (max-width:949px){.frame.contain{aspect-ratio:auto}}
+.frame.contain video,.frame.contain img{height:auto;object-fit:contain}
+@media (min-width:950px){.frame{max-height:620px;justify-self:end;width:100%}}
+
+/* logos */
+.logos{display:flex;flex-wrap:wrap;align-items:center;gap:28px 40px;list-style:none;margin:0;padding:0}
+.logos img{height:24px;width:auto;opacity:.45;transition:opacity .2s}
+.logos img.tall{height:32px}
+.logos img:hover{opacity:.8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .logos img{filter:invert(1)}}
+:root[data-theme="dark"] .logos img{filter:invert(1)}
+@media (max-width:600px){.logos{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px 16px;align-items:center;justify-items:center}.logos img{height:auto;max-height:18px;max-width:100%}.logos img.tall{max-height:24px}}
+.industries{margin:20px 0 0;font-size:14px;color:var(--muted)}
+
+/* elevated panels (expertise, stats) */
+.panels{display:grid;gap:16px;grid-template-columns:1fr}
+@media (min-width:744px){.panels{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.panel{background:var(--bg);border-radius:var(--r-panel);box-shadow:var(--shadow);padding:24px;display:flex;flex-direction:column;gap:8px}
+@media (min-width:744px){.panel{min-height:180px}}
+.panel h3{font-size:18px;line-height:24px}
+.panel p{margin:0;font-size:15px;line-height:22px;color:var(--muted)}
+.stat{justify-content:space-between}
+.stat .k{font-size:18px;font-weight:600}
+.stat .v{font-size:40px;line-height:44px;font-weight:700;letter-spacing:-0.02em}
+
+/* listing cards */
+.cards{display:grid;gap:40px 24px;grid-template-columns:1fr}
+@media (min-width:560px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1128px){.cards{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.work{text-decoration:none;display:flex;flex-direction:column;gap:10px}
+.work[hidden]{display:none}
+.work .thumb{position:relative;aspect-ratio:1/0.95;border-radius:var(--r-card);overflow:hidden;background:var(--soft)}
+.work .thumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
+.work:hover .thumb img{transform:scale(1.03)}
+.chips{position:absolute;top:10px;left:10px;right:10px;display:flex;flex-wrap:wrap;gap:4px;pointer-events:none}
+.chip{background:rgba(255,255,255,.92);color:#222222;border-radius:999px;padding:3px 8px;font-size:11px;line-height:16px;font-weight:400;letter-spacing:.01em;box-shadow:0 1px 3px rgba(0,0,0,.10);white-space:nowrap}
+.work h3{font-size:15px;line-height:20px;font-weight:600}
+.work .m{font-size:15px;line-height:20px;color:var(--muted);margin:0}
+
+/* horizontal rows */
+.row{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px}
+.row::-webkit-scrollbar{display:none}
+.row>*{scroll-snap-align:start;flex:0 0 auto}
+.tile{width:min(64vw,260px);aspect-ratio:9/16;border-radius:var(--r-card);overflow:hidden;background:var(--soft)}
+.tile.wide{width:min(86vw,560px);aspect-ratio:16/9;align-self:center}
+.tile video{width:100%;height:100%;object-fit:cover}
+.ph{width:min(64vw,260px);aspect-ratio:1;border-radius:var(--r-card);background:var(--soft);border:1px dashed var(--line);display:flex;flex-direction:column;justify-content:flex-end;padding:16px}
+.ph b{font-size:15px}
+.ph span{font-size:14px;color:var(--muted)}
+
+/* list rows (about, contact) */
+.about{display:grid;gap:32px}
+@media (min-width:950px){.about{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:64px;align-items:start}}
+.about img{border-radius:var(--r-panel);width:100%;aspect-ratio:4/5;object-fit:cover}
+.about h2{font-size:26px;line-height:32px;margin-bottom:16px}
+@media (min-width:744px){.about h2{font-size:32px;line-height:38px}}
+.about p{margin:0 0 16px;font-size:16px;line-height:24px;max-width:62ch}
+.list{list-style:none;margin:16px 0 0;padding:0}
+.list li>a,.list li>div{display:flex;align-items:center;gap:16px;min-height:64px;padding:12px 0;text-decoration:none;border-bottom:1px solid var(--line)}
+.list li:last-child>a,.list li:last-child>div{border-bottom:0}
+.list .ic{flex:0 0 28px;display:flex;justify-content:center;color:var(--ink)}
+.list .tx{flex:1;min-width:0}
+.list .tx b{display:block;font-weight:500;font-size:16px;line-height:22px}
+.list .tx span{display:block;font-size:14px;line-height:20px;color:var(--muted)}
+.list .ch{color:var(--muted)}
+.contact-card{background:var(--bg);border-radius:var(--r-panel);box-shadow:var(--shadow);padding:8px 24px;max-width:720px}
+.contact h2{font-size:32px;line-height:38px;margin-bottom:8px}
+@media (min-width:744px){.contact h2{font-size:40px;line-height:46px}}
+footer{border-top:1px solid var(--line);font-size:14px;color:var(--muted)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;padding-top:24px;padding-bottom:32px}
+
+/* marquee + lightbox (case pages and motion) */
+.marquee{overflow:hidden;position:relative;touch-action:pan-y}
+.track{display:flex;gap:12px;width:max-content;will-change:transform}
+.track .s{height:var(--h,560px);flex:0 0 auto;border-radius:var(--r-card);overflow:hidden;background:var(--soft);cursor:zoom-in;border:0;padding:0;margin:0}
+.track .s img,.track .s video{height:100%;width:auto;max-width:none}
+@media (max-width:600px){.track .s{height:var(--hm,320px)}}
+.mq-controls{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:16px;padding:0 var(--gutter)}
+.mq-controls button{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.mq-controls button:hover{border-color:var(--ink)}
+.mq-controls .mq-play{width:48px;height:48px;background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.mq-controls .mq-sound[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.mq-controls .mq-play:hover{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.lb{position:fixed;inset:0;z-index:100;background:rgba(10,10,10,.97);display:flex;align-items:center;justify-content:center;padding:64px 72px}
+@media (max-width:600px){.lb{padding:64px 16px 88px}}
+.lb-stage{max-width:100%;max-height:100%;display:flex;align-items:center;justify-content:center}
+.lb-stage img,.lb-stage video{max-width:100%;max-height:calc(100vh - 128px);width:auto;height:auto;border-radius:12px}
+.lb button{position:absolute;border:0;border-radius:50%;width:48px;height:48px;background:rgba(255,255,255,.14);color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.lb button:hover{background:#fff;color:#111}
+.lb-close{top:16px;right:16px}
+.lb-prev{left:16px;top:50%;transform:translateY(-50%)}
+.lb-next{right:16px;top:50%;transform:translateY(-50%)}
+@media (max-width:600px){.lb-prev,.lb-next{top:auto;bottom:20px;transform:none}.lb-prev{left:calc(50% - 60px)}.lb-next{right:calc(50% - 60px)}}
+.lb-count{position:absolute;top:28px;left:24px;color:rgba(255,255,255,.7);font-size:14px;font-variant-numeric:tabular-nums}
+
+/* case view */
+.case-top{padding-top:32px;padding-bottom:32px}
+@media (min-width:744px){.case-top{padding-top:48px}}
+.back{text-decoration:none;font-weight:600;display:inline-flex;gap:8px;margin-bottom:24px}
+.case-top .eyebrow{font-size:14px;color:var(--muted)}
+.case-top h1{font-size:32px;line-height:38px;margin:8px 0 16px}
+@media (min-width:744px){.case-top h1{font-size:44px;line-height:52px}}
+.case-top .intro{font-size:17px;line-height:26px;max-width:68ch;margin:0 0 24px}
+.case-top .intro a{font-weight:600}
+.metarow{display:grid;grid-template-columns:1fr;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+@media (min-width:744px){.metarow{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.metarow div{padding:16px 16px 16px 0;font-size:15px}
+.metarow small{display:block;color:var(--muted);font-size:13px;margin-bottom:2px}
+.facts{display:grid;grid-template-columns:1fr;gap:0 48px;list-style:none;padding:0;margin:0}
+@media (min-width:744px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.facts li{border-top:1px solid var(--line);padding:16px 0;display:flex;gap:12px;font-size:16px;line-height:24px}
+.facts li::before{content:"";flex:0 0 8px;height:8px;margin-top:8px;border-radius:50%;background:var(--accent)}
+.ba{display:grid;grid-template-columns:1fr;gap:16px;margin-top:40px}
+@media (min-width:744px){.ba{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.ba figure{margin:0}
+.ba img{border-radius:var(--r-card);width:100%;aspect-ratio:4/3;object-fit:cover;object-position:top}
+.ba figcaption{margin-top:8px;color:var(--muted);font-size:14px}
+.next{border-top:1px solid var(--line)}
+.next .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;padding-top:40px;padding-bottom:40px}
+.next small{display:block;color:var(--muted);margin-bottom:4px}
+.next a.big{font-size:26px;font-weight:600;text-decoration:none}
+.next a.big:hover{color:var(--accent)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* vertical story case */
+.st-sec{padding:40px 0;border-top:1px solid var(--line)}
+@media (min-width:744px){.st-sec{padding:64px 0}}
+.st-head{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+.st-n{font-size:14px;font-weight:600;color:var(--accent);font-variant-numeric:tabular-nums}
+.st-head h2{font-size:24px;line-height:30px}
+@media (min-width:744px){.st-head h2{font-size:32px;line-height:38px}}
+.st-p{font-size:17px;line-height:26px;max-width:68ch;margin:0 0 24px}
+.st-sec .facts{margin-bottom:32px}
+.st-m{display:block;width:100%;padding:0;margin:0;border:0;background:var(--soft);border-radius:var(--r-card);overflow:hidden;cursor:zoom-in}
+.st-m img,.st-m video{width:100%;height:auto;display:block}
+.st-full,.st-grid2,.st-grid3,.st-phones,.st-phones6{display:grid;gap:16px;margin-top:16px}
+@media (min-width:744px){.st-grid2{grid-template-columns:repeat(2,minmax(0,1fr))}.st-grid3{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.st-phones{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (min-width:744px){.st-phones{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.st-phones6{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (min-width:744px){.st-phones6{grid-template-columns:repeat(6,minmax(0,1fr))}}
+.st-phones .st-m,.st-phones6 .st-m{background:transparent}
+.st-sec figure{margin:0}
+.st-sec figcaption{margin-top:8px;font-size:14px;color:var(--muted)}
+.st-map>div{background:var(--soft);border-radius:var(--r-card);padding:20px;font-size:13px;line-height:20px;overflow-wrap:anywhere}
+.st-map b{display:block;font-size:15px;margin-bottom:8px}
+.st-map ul{margin:0;padding-left:18px;color:var(--muted)}
+.st-map .after ul{color:var(--ink)}
+.st-map .after b{color:#2E7D32}
+.st-logos figure{background:var(--soft);border-radius:var(--r-card);padding:24px;display:flex;flex-direction:column;align-items:center}
+.st-logos img{max-width:200px;width:100%;border-radius:12px}
+.st-hero{border-radius:var(--r-panel);overflow:hidden;margin-top:8px}
+.st-hero video{width:100%;display:block}
+
+.reviews{display:grid;gap:16px;grid-template-columns:1fr}
+@media (min-width:744px){.reviews{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}}
+.review{background:var(--bg);border-radius:var(--r-panel);box-shadow:var(--shadow);padding:24px;display:flex;flex-direction:column;gap:12px}
+.who{display:flex;align-items:center;gap:12px}
+img.ava{object-fit:cover;display:block}
+.ava{width:48px;height:48px;border-radius:50%;background:var(--chip);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:15px;flex:0 0 auto}
+.who b{display:block;font-size:16px;line-height:22px}
+.who span{display:block;font-size:14px;line-height:20px;color:var(--muted)}
+.rv-meta{font-size:13px;color:var(--muted)}
+.rv-text{margin:0;font-size:16px;line-height:24px;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+.rv-text.open{display:block;-webkit-line-clamp:unset}
+.rv-more{align-self:flex-start;background:none;border:0;padding:0;font:600 15px var(--font);color:var(--ink);text-decoration:underline;cursor:pointer}
+
+.st-head{align-items:center!important}
+.st-n{width:36px;height:36px;border-radius:50%;background:var(--chip);color:var(--ink)!important;display:inline-flex;align-items:center;justify-content:center;font-size:15px!important;flex:0 0 auto}
+.st-top{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px}
+.live-link{display:inline-flex;align-items:center;min-height:40px;padding:0 18px;border-radius:12px;border:1.5px solid #2E7D32;color:#2E7D32;font-weight:600;font-size:16px;text-decoration:none}
+.live-link:hover{background:#2E7D32;color:#fff}
+.st-grid2,.st-grid3,.st-full,.st-phones6{align-items:start}
+.st-grid2 .st-m,.st-grid3 .st-m,.st-full .st-m,.st-phones6 .st-m{border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.06),0 10px 28px rgba(0,0,0,.10);background:#fff}
+.st-phones6 .st-m{border-radius:16px}
+.st-grid2,.st-grid3,.st-full,.st-phones6{gap:24px}
+.st-map .cnt{float:right;font-weight:700;font-size:15px}
+.st-map .before .cnt{color:#C62828}
+.st-map .after .cnt{color:#2E7D32}
+.st-map .before ul{text-decoration:line-through;text-decoration-color:rgba(198,40,40,.35)}
+.st-map .before .more{text-decoration:none;font-style:italic}
+
+.st-single{display:grid;margin-top:24px;justify-items:center}
+.st-single .st-m{max-width:420px;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.06),0 10px 28px rgba(0,0,0,.10)}
+.st-small4{display:grid;gap:12px;margin-top:16px;grid-template-columns:repeat(2,minmax(0,1fr));max-width:720px}
+@media (min-width:744px){.st-small4{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.st-small4 .st-m{aspect-ratio:1;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.06),0 6px 16px rgba(0,0,0,.08)}
+.st-small4 .st-m img{width:100%;height:100%;object-fit:cover}
+[hidden]{display:none!important}
+
+/* hero, after antonnevin.com */
+.hero.ah{display:flex;align-items:center;gap:96px;padding:112px 0 82px}
+.ah-copy{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:40px}
+.ah-statement{display:flex;flex-direction:column;gap:28px}
+.ah-intro{font-size:clamp(26px,calc(1.25vw + 8px),32px);font-weight:400;line-height:1.06;letter-spacing:-.8px;margin:0}
+.ah-typed{display:flex;align-items:flex-start;gap:3px;font-size:clamp(48px,3.3333vw,64px);font-weight:500;line-height:1.06;letter-spacing:-1.5px;min-height:1.0625em;margin:0}
+.ah-cursor{display:inline-block;width:max(3px,.0625em);height:.72em;margin-top:.17em;border-radius:1px;background:var(--blue)}
+@media (prefers-reduced-motion:no-preference){.ah-cursor{animation:ahblink 1.06s step-end infinite}}
+@keyframes ahblink{0%,50%{opacity:1}50.01%,100%{opacity:0}}
+.hero .ah-headline{font-size:clamp(50px,calc(3.75vw - 4px),68px);font-weight:500;line-height:1.06;letter-spacing:-1.5px;margin:0;max-width:820px}
+.ah .pick>button{font:500 .88em var(--font);letter-spacing:-1.2px;line-height:1;color:var(--ink);background:var(--bg);border:2px solid var(--blue);border-radius:16px;padding:.12em .4em .15em .43em;display:inline-flex;align-items:center;gap:.3em;vertical-align:.05em;cursor:pointer}
+.ah .pick>button svg{width:.42em;height:.42em;color:var(--ink);transition:transform .2s}
+.ah .pick>button[aria-expanded="true"] svg{transform:rotate(180deg)}
+.ah .pick ul{min-width:260px;border:1px solid var(--line);border-radius:12px;letter-spacing:0}
+.ah .pick li button{font:400 20px var(--font);border-radius:8px;padding:12px 16px}
+.ah .pick li button[aria-selected="true"]{color:var(--blue);font-weight:500;background:#EEF2FD}
+.ah-actions{display:flex;align-items:center;gap:30px}
+.ah-btn{display:inline-flex;align-items:center;border-radius:16px;background:#161513;color:#fff;font:500 17px var(--font);padding:19px 30px;text-decoration:none;transition:opacity .2s}
+.ah-btn:hover{opacity:.88}
+.ah-link{font:500 17px var(--font);color:var(--ink);text-decoration:underline;text-decoration-skip-ink:none}
+.ah-portrait{flex:0 0 auto;width:344px;height:418px;border-radius:24px;overflow:hidden}
+.ah-portrait img{width:100%;height:100%;object-fit:cover;object-position:50% 20%}
+@media (max-width:1439px){.hero.ah{gap:56px;padding:88px 0}.ah-copy{gap:32px}.ah-statement{gap:22px}.ah-intro{font-size:26px}.ah-typed{font-size:46px}.hero .ah-headline{font-size:48px}.ah-portrait{width:280px;height:340px}}
+@media (max-width:1279px){.hero.ah{flex-direction:column-reverse;align-items:flex-start;gap:40px}.ah-typed{font-size:44px}.hero .ah-headline{font-size:44px}.ah-portrait{width:240px;height:292px}}
+@media (max-width:1023px){.hero.ah{gap:36px}.ah-intro{font-size:22px}.ah-typed{font-size:40px;letter-spacing:-1.2px}.hero .ah-headline{font-size:38px;letter-spacing:-1.2px}.ah-portrait{width:220px;height:268px;border-radius:32px}}
+@media (max-width:767px){.hero.ah{padding:48px 0 56px;gap:32px}.ah-copy{gap:28px}.ah-statement{gap:18px}.ah-intro{font-size:19px;letter-spacing:-.8px}.ah-typed{font-size:32px;letter-spacing:-.8px}.hero .ah-headline{font-size:26px;letter-spacing:-.8px}.ah-actions{flex-wrap:wrap;gap:20px}.ah-btn{padding:16px 24px}.ah-portrait{width:174px;height:212px;border-radius:24px}.ah .pick li button{font-size:18px}.ah .pick ul{min-width:220px}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap bar">
+    <a class="brand" href="#top">Anna Hložková</a>
+    <nav class="mainnav" aria-label="Main">
+      <a href="#expertise" data-i="nav_exp">Expertise</a>
+      <a href="#work" data-i="nav_work">Work</a>
+      <a href="#testimonials" data-i="nav_tst">Testimonials</a>
+      <a href="#contact" data-i="nav_contact">Contact</a>
+    </nav>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" id="lang-en" aria-pressed="true">EN</button>
+      <button type="button" id="lang-cz" aria-pressed="false">CZ</button>
+    </div>
+  </div>
+</header>
+
+<main id="home">
+  <div class="wrap">
+    <section class="hero ah" id="top">
+      <div class="ah-copy">
+        <div class="ah-statement">
+          <p class="ah-intro" data-i="h1">Hello, I'm Anna! 👋 Art Director based in Prague, Czechia.</p>
+          <p class="ah-typed" aria-label="Concept-driven. Detail-oriented. Fast. AI-powered."><span id="typed"></span><span class="ah-cursor" aria-hidden="true"></span></p>
+          <h1 class="ah-headline"><span data-i="lead">I turn complex ideas into clear visual systems for</span> <span class="pick"><button type="button" id="pick-btn" aria-haspopup="listbox" aria-expanded="false"><span id="pick-label">brands</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><ul id="pick-list" role="listbox" hidden></ul></span></h1>
+        </div>
+        <div class="ah-actions">
+          <a class="ah-btn" href="#work" data-i="see_work">View projects</a>
+          <a class="ah-link" href="#contact" data-i="lets_talk">Let's talk</a>
+        </div>
+      </div>
+      <div class="ah-portrait"><img src="img/hero_portrait_big.jpg" alt="Anna Hložková"></div>
+    </section>
+
+    <hr class="rule">
+    <section class="sec" aria-label="Clients">
+      <ul class="logos">
+        <li><img src="img/logo_billa.png" alt="Billa" class="tall"></li>
+        <li><img src="img/logo_ceske_drahy.png" alt="České dráhy"></li>
+        <li><img src="img/logo_loreal.png" alt="L'Oréal"></li>
+        <li><img src="img/logo_lindt.png" alt="Lindt" class="tall"></li>
+        <li><img src="img/logo_mattoni.png" alt="Mattoni"></li>
+        <li><img src="img/logo_penny.png" alt="Penny"></li>
+        <li><img src="img/logo_hudebni_divadlo_karlin.png" alt="Hudební divadlo Karlín" class="tall"></li>
+        <li><img src="img/logo_ivigee.png" alt="iVigee"></li>
+      </ul>
+      <p class="industries" data-i="industries">Retail · Transport · Culture · Tourism · Pharma tech · Education</p>
+    </section>
+    <hr class="rule">
+
+    <section class="sec" id="expertise">
+      <div class="sec-head"><h2 data-i="exp_h">Expertise</h2></div>
+      <div class="panels">
+        <div class="panel"><h3 data-i="e1h">Brand &amp; Art Direction</h3><p data-i="e1p">Identity, key visuals, campaigns.</p></div>
+        <div class="panel"><h3 data-i="e2h">Websites</h3><p data-i="e2p">Structure, UI and responsive layouts.</p></div>
+        <div class="panel"><h3 data-i="e3h">Motion &amp; AI video</h3><p data-i="e3p">Short films and reels for brands.</p></div>
+      </div>
+    </section>
+
+    <section class="sec" id="work" style="padding-top:0">
+      <div class="sec-head"><h2 data-i="work_h">Work</h2></div>
+      <div class="pills filters" role="group" aria-label="Filter" style="margin-bottom:20px">
+        <button type="button" class="pill" data-f="all" aria-pressed="true" data-i="f_all">All</button>
+        <button type="button" class="pill" data-f="brand" aria-pressed="false" data-i="f_brand">Brand</button>
+        <button type="button" class="pill" data-f="web" aria-pressed="false" data-i="f_web">Web</button>
+        <button type="button" class="pill" data-f="print" aria-pressed="false" data-i="f_print">Print</button>
+      </div>
+      <div class="cards" id="grid"></div>
+    </section>
+
+  </div>
+  <section class="sec" id="motion" style="padding-top:0">
+    <div class="wrap"><div class="sec-head"><h2 data-i="mo_h">Motion &amp; AI video</h2><a class="circle" href="https://www.instagram.com/anna.filya.hlozkova/" target="_blank" rel="noopener" aria-label="Instagram">→</a></div></div>
+    <div class="marquee" id="mq-motion" style="--h:560px;--hm:340px"></div>
+  </section>
+  <section class="sec" id="packaging" style="padding-top:0">
+    <div class="wrap"><div class="sec-head"><h2 data-i="pk_h">Packaging &amp; retail</h2></div>
+    <p class="muted" style="margin:-8px 0 16px" data-i="pk_p">Billa and Lindt.</p></div>
+    <div class="marquee" id="mq-pack" style="--h:420px;--hm:260px"></div>
+  </section>
+  <div class="wrap">
+    
+
+    <section class="sec" id="testimonials" style="padding-top:0">
+      <div class="sec-head"><h2 data-i="tst_h">Testimonials</h2></div>
+      <div class="reviews" id="testi"></div>
+    </section>
+
+    <hr class="rule">
+        <hr class="rule">
+
+    <section class="sec contact" id="contact">
+      <h2 data-i="ct_h">Looking for an art director in Prague? Let's talk.</h2>
+      <p class="muted" style="margin:0 0 24px" data-i="ct_p">I reply within a day.</p>
+      <div class="contact-card">
+        <ul class="list" style="margin:0">
+          <li><a href="mailto:anna.filya.hlozkova@gmail.com"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span><span class="tx"><b>Email</b><span>anna.filya.hlozkova@gmail.com</span></span><span class="ch" aria-hidden="true">›</span></a></li>
+          <li><a href="https://www.linkedin.com/in/anna-hlo%C5%BEkov%C3%A1-0429aa21a/" target="_blank" rel="noopener"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"/></svg></span><span class="tx"><b>LinkedIn</b><span>Anna Hložková</span></span><span class="ch" aria-hidden="true">›</span></a></li>
+          <li><a href="https://t.me/Anna_Filya" target="_blank" rel="noopener"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M21 4L3 11l6 2 2 6 3-4 5 4z"/></svg></span><span class="tx"><b>Telegram</b><span>@Anna_Filya</span></span><span class="ch" aria-hidden="true">›</span></a></li>
+          <li><a href="https://www.instagram.com/anna.filya.hlozkova/" target="_blank" rel="noopener"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor"/></svg></span><span class="tx"><b>Instagram</b><span>@anna.filya.hlozkova</span></span><span class="ch" aria-hidden="true">›</span></a></li>
+          <li><div><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></span><span class="tx"><b data-i="phone">Phone</b><span>+420 777 350 123 · Praha</span></span></div></li>
+        </ul>
+      </div>
+    </section>
+  </div>
+</main>
+
+<main id="case" hidden></main>
+
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Gallery">
+  <span class="lb-count" id="lb-count"></span>
+  <div class="lb-stage" id="lb-stage"></div>
+  <button type="button" class="lb-close" id="lb-close" aria-label="Close">✕</button>
+  <button type="button" class="lb-prev" id="lb-prev" aria-label="Previous">←</button>
+  <button type="button" class="lb-next" id="lb-next" aria-label="Next">→</button>
+</div>
+
+<footer><div class="wrap"><span>© 2026 Anna Hložková</span><span>Prague, Czech Republic</span></div></footer>
+<script>
+const T = {
+ en:{tst_h:"Testimonials",more:"Show more",less:"Show less",st1k:"Experience",st2k:"From idea to launch",st3k:"Daily tools",ct_p:"I reply within a day.",phone:"Phone",nav_work:"Work",nav_exp:"Expertise",nav_about:"About",nav_contact:"Contact",
+  eyebrow:"Art Director & AI Creator",h1:"Hello, I'm Anna! 👋 Art Director based in Prague, Czechia.",typed:["Concept-driven.","Detail-oriented.","Fast.","AI-powered."],lets_talk:"Let's talk",nav_tst:"Testimonials",
+  lead:"I turn complex ideas into clear visual systems for",see_work:"View projects",
+  industries:"Retail · Transport · Culture · Tourism · Pharma tech · Education",
+  exp_h:"Expertise",e1h:"Brand & Art Direction",e1p:"Visual identities, key visuals and campaigns. Building distinctive visual systems that create consistency across every brand touchpoint.",
+  e2h:"Digital Design & Web",e2p:"Website concepts, information architecture, UX/UI and responsive design. From initial structure and visual direction to hands-on development and launch.",
+  e3h:"Motion & AI Production",e3p:"Motion design, AI-powered video and visual storytelling for brands. From creative concept to cinematic content and social campaigns.",
+  work_h:"Work",f_all:"All",f_brand:"Brand",f_web:"Web",f_print:"Print",
+  mo_h:"Motion & AI video",mo_more:"More on Instagram ↗",
+  pk_h:"Packaging & retail",pk_p:"Billa and Lindt. Created at Yellow Shapes studio, 2024–2025.",pk_1:"Packaging, 2025",pk_2:"Packaging, 2025",pk_3:"Key visual, billboard",pk_4:"Weekly catalogue",
+  s1:"years of design and art direction in agencies",s2b:"0 → live",s2:"I design the site and launch it myself. Nothing gets lost in the hand-off.",s3:"in my daily work: video, code and fast concept rounds",
+  ab_h:"I trained as a painter. I work as an art director.",
+  ab_p1:"I studied fine art and drafting. Then I spent twenty years in advertising agencies in Prague: identities, packaging, campaigns, theatre.",
+  ab_p2:"Today I lead a brand from the first sketch to a live website. I build sites with AI and make short AI films. The painter's eye is still my main tool.",
+  edu1:"Nizhny Tagil State Socio-Pedagogical Institute, Faculty of Art Education",
+  edu2:"Courses: Web Design at Flux Academy, UI/UX Design, Tilda School, Kava School (social media)",
+  lang_l:"Languages",langs:"Czech fluent · Russian native · English B1",
+  ct_h:"Looking for an art director in Prague? Let's talk.",
+  back:"← All work",client:"Client",role:"My role",year:"Year",did:"What I did",before:"Before",after:"After",next:"Next case",live:"Live site ↗",
+  opts:["brands","websites","campaigns","motion","AI video"]},
+ cz:{tst_h:"Reference",more:"Zobrazit více",less:"Zobrazit méně",st1k:"Zkušenosti",st2k:"Od nápadu po spuštění",st3k:"Každodenní nástroje",ct_p:"Odpovím do jednoho dne.",phone:"Telefon",nav_work:"Práce",nav_exp:"Expertíza",nav_about:"O mně",nav_contact:"Kontakt",
+  eyebrow:"Art Director & AI Creator",h1:"Ahoj, jsem Anna! 👋 Art directorka z\u00a0Prahy.",typed:["Koncepční.","Precizní.","Rychlá.","S\u00a0AI."],lets_talk:"Napište mi",nav_tst:"Reference",
+  lead:"Složité nápady proměňuji v\u00a0jasné vizuální systémy pro",see_work:"Prohlédnout projekty",
+  industries:"Maloobchod · Doprava · Kultura · Cestovní ruch · Farmaceutické technologie · Vzdělávání",
+  exp_h:"Expertíza",e1h:"Značka a art direction",e1p:"Vizuální identita, klíčové vizuály a kampaně. Výrazné vizuální systémy, díky kterým značka působí jednotně ve\u00a0všech kanálech.",
+  e2h:"Digitální design a web",e2p:"Koncepty webů, informační architektura, UX/UI a responzivní design. Od struktury a vizuálního směru až po vývoj a spuštění.",
+  e3h:"Motion a AI produkce",e3p:"Motion design, AI video a vizuální vyprávění pro značky. Od kreativního konceptu po filmový obsah a kampaně na sociální sítě.",
+  work_h:"Práce",f_all:"Vše",f_brand:"Značka",f_web:"Web",f_print:"Tisk",
+  mo_h:"Motion a AI video",mo_more:"Další na Instagramu ↗",
+  pk_h:"Obaly a retail",pk_p:"Billa a Lindt. Vytvořeno ve studiu Yellow Shapes, 2024–2025.",pk_1:"Obal, 2025",pk_2:"Obal, 2025",pk_3:"Klíčový vizuál, billboard",pk_4:"Týdenní leták",
+  s1:"let v designu a art direction v agenturách",s2b:"0 → online",s2:"Web navrhnu i spustím sama. Při předávání se nic neztratí.",s3:"je součástí mé každodenní práce: video, kód i rychlé koncepty",
+  ab_h:"Vystudovala jsem výtvarnou výchovu. Pracuji jako art directorka.",
+  ab_p1:"Studovala jsem malbu a technické kreslení. Pak jsem dvacet let pracovala v pražských reklamních agenturách: identity, obaly, kampaně, divadlo.",
+  ab_p2:"Dnes vedu značku od první skici až po spuštěný web. Weby stavím s AI a natáčím krátké AI filmy. Malířské oko zůstává mým hlavním nástrojem.",
+  edu1:"Státní sociálně-pedagogický institut v Nižním Tagilu, fakulta výtvarné výchovy",
+  edu2:"Kurzy: webdesign na Flux Academy, UI/UX design, Tilda School, Kava School (sociální sítě)",
+  lang_l:"Jazyky",langs:"čeština plynně · ruština rodilý jazyk · angličtina B1",
+  ct_h:"Hledáte art directorku v Praze? Napište mi.",
+  back:"← Všechny projekty",client:"Klient",role:"Moje role",year:"Rok",did:"Co jsem udělala",before:"Předtím",after:"Potom",next:"Další projekt",live:"Zobrazit web ↗",
+  opts:["značky","weby","kampaně","motion","AI video"]},
+ ru:{tst_h:"Отзывы",more:"Показать полностью",less:"Свернуть",st1k:"Опыт",st2k:"От идеи до запуска",st3k:"Инструменты",ct_p:"Отвечу в течение дня.",phone:"Телефон",nav_work:"Работы",nav_exp:"Экспертиза",nav_about:"Обо мне",nav_contact:"Контакт",
+  eyebrow:"Art Director & AI Creator",h1:"Привет, я Анна, дизайнер из\u00a0Праги.",nav_tst:"Отзывы",
+  lead:"Превращаю сложные идеи в\u00a0понятные масштабируемые продукты",see_work:"Смотреть работы",
+  industries:"Ритейл · Транспорт · Культура · Туризм · Фарма-технологии · Образование",
+  exp_h:"Экспертиза",e1h:"Бренд и арт-дирекшн",e1p:"Айдентика, ключевые визуалы и кампании. Выразительные визуальные системы, которые держат бренд единым во\u00a0всех точках контакта.",
+  e2h:"Цифровой дизайн и сайты",e2p:"Концепции сайтов, информационная архитектура, UX/UI и адаптивный дизайн. От первой структуры и визуального направления до разработки и запуска.",
+  e3h:"Моушн и AI-продакшн",e3p:"Моушн-дизайн, AI-видео и визуальный сторителлинг для брендов. От креативной концепции до кинематографичного контента и кампаний в соцсетях.",
+  work_h:"Работы",f_all:"Все",f_brand:"Бренд",f_web:"Сайты",f_print:"Печать",
+  mo_h:"Моушн и AI-видео",mo_more:"Ещё в Instagram ↗",
+  pk_h:"Упаковка и ритейл",pk_p:"Billa и Lindt. Сделано в студии Yellow Shapes, 2024–2025.",pk_1:"Упаковка, 2025",pk_2:"Упаковка, 2025",pk_3:"Ключевой визуал, билборд",pk_4:"Еженедельный каталог",
+  s1:"лет дизайна и арт-дирекшна в агентствах",s2b:"0 → онлайн",s2:"Сайт я проектирую и запускаю сама. При передаче ничего не теряется.",s3:"в моей ежедневной работе: видео, код и быстрые концепции",
+  ab_h:"По образованию я художник. По профессии арт-директор.",
+  ab_p1:"Я училась живописи и черчению. Потом двадцать лет работала в рекламных агентствах Праги: айдентика, упаковка, кампании, театр.",
+  ab_p2:"Сегодня я веду бренд от первого эскиза до запущенного сайта. Собираю сайты с AI и снимаю короткие AI-фильмы. Глаз художника остаётся моим главным инструментом.",
+  edu1:"Нижнетагильский государственный социально-педагогический институт, факультет изобразительного искусства",
+  edu2:"Курсы: веб-дизайн во Flux Academy, UI/UX-дизайн, Tilda School, Kava School (соцсети)",
+  lang_l:"Языки",langs:"чешский свободно · русский родной · английский B1",
+  ct_h:"Ищете арт-директора в Праге? Давайте поговорим.",
+  back:"← Все работы",client:"Клиент",role:"Моя роль",year:"Год",did:"Что я сделала",before:"До",after:"После",next:"Следующий кейс",live:"Сайт ↗",
+  opts:["Веб","Айдентика","Арт-дирекшн","Моушн","AI-контент"]}
+};
+
+const HERO = [
+  {type:"video", src:"img/ct_video2.mp4", fit:"contain"},
+  {type:"img", src:"img/iv_x_ig6.jpg", alt:"iVigee"},
+  {type:"img", src:"img/dk_4.jpg", alt:"Veselá vdova"},
+  {type:"video", src:"img/mo_squash.mp4"},
+  {type:"video", src:"img/mo_italy.mp4"}
+];
+
+const CHIPS = {
+ "karlin":{en:["Art direction","Key visual","Campaign","Identity"],cz:["Art direction","Key visual","Kampaň","Identita"],ru:["Арт-дирекшн","Ключевой визуал","Кампания","Айдентика"]},
+ "ivigee":{en:["Expo","Identity","Print-ready","Video"],cz:["Expo","Identita","Tisková data","Video"],ru:["Expo","Айдентика","Препресс","Видео"]},
+ "cyklus-trails":{en:["UX/UI","Web","Identity"],cz:["UX/UI","Web","Identita"],ru:["UX/UI","Сайт","Айдентика"]},
+ "praha-bike":{en:["Web","Identity"],cz:["Web","Identita"],ru:["Сайт","Айдентика"]},
+ "praha-bike-print":{en:["Wayfinding","Identity","Print-ready"],cz:["Navigační systém","Identita","Tisková data"],ru:["Навигация","Айдентика","Препресс"]},
+ "villa-anezka":{en:["Web","Motion"],cz:["Web","Motion"],ru:["Сайт","Моушн"]},
+ "esbm":{en:["Logo","Identity"],cz:["Logo","Identita"],ru:["Логотип","Айдентика"]},
+ "calor":{en:["Identity"],cz:["Identita"],ru:["Айдентика"]}
+};
+const CASES = [
+ {id:"karlin", cat:["brand","print"], title:"Hudební divadlo Karlín", cover:"img/dk_4.jpg", year:"2018–2021",
+  tag:{en:"Art direction · Theatre",cz:"Art direction · Divadlo",ru:"Арт-дирекшн · Театр"},
+  role:{en:"Art director at Beans agency",cz:"Art directorka v agentuře Beans",ru:"Арт-директор в агентстве Beans"},
+  short:{en:"Every show began as an idea in a brainstorm and grew into a full campaign.",cz:"Každé představení začínalo nápadem z brainstormingu a vyrostla z něj celá kampaň.",ru:"Каждый спектакль начинался с идеи на брейншторме и вырастал в целую кампанию."},
+  intro:{en:"Every new production became a standalone visual communication campaign. I developed and adapted key visuals for the shows and built a coherent visual system across all of the theatre's channels, from outdoor advertising and print to digital. I worked closely with the Creative Director of Beans and the theatre management, keeping every production consistent and recognisable at each audience touchpoint.",
+   cz:"Každá nová inscenace se stala samostatnou vizuální komunikační kampaní. Vytvářela jsem a adaptovala key visuály představení a budovala ucelený vizuální systém pro všechny komunikační kanály divadla, od venkovní reklamy a tiskovin až po digitální média. Úzce jsem spolupracovala s kreativním ředitelem agentury Beans a s vedením divadla a dbala na to, aby každá inscenace byla konzistentní a rozpoznatelná ve všech bodech kontaktu s publikem.",
+   ru:"Каждая новая постановка становилась самостоятельной визуальной коммуникационной кампанией. Разрабатывала и адаптировала key visuals для спектаклей, формируя целостную визуальную систему для всех каналов коммуникации театра: от наружной рекламы и печатных материалов до digital-носителей. Работала в тесном взаимодействии с Creative Director Beans и руководством театра, обеспечивая визуальную последовательность и узнаваемость каждой постановки на всех точках контакта с аудиторией."},
+  facts:{en:["Logos and event identity","Key visuals","Advertising campaigns","Print and merchandise: programmes, posters, promotional materials","Outdoor: citylights, billboards, banners","Press walls and event branding","Video spots and LED screens","Web banners"],
+   cz:["Loga a identita akcí","Klíčové vizuály","Reklamní kampaně","Tiskoviny a merchandising: programy, plakáty, propagační materiály","Venkovní reklama: citylighty, billboardy, bannery","Tiskové stěny a branding akcí","Video spoty a LED obrazovky","Webové bannery"],
+   ru:["Логотипы и айдентика событий","Ключевые визуалы","Рекламные кампании","Полиграфия и мерч: программки, афиши, промоматериалы","Наружная реклама: ситилайты, билборды, баннеры","Пресс-воллы и брендинг мероприятий","Видеоспоты и LED-экраны","Веб-баннеры"]},
+  slides:["dk_5.jpg","dk_4.jpg","dk_1.jpg","dk_flip.mp4","dk_7.jpg","dk_2.jpg","dk_3.jpg","dk_6.jpg"]},
+ {id:"ivigee", hero:"iv_cover2.jpg", link:"https://ivigee.com", story_title:{en:"Design and marketing support for international pharma conferences",cz:"Design a marketingová podpora pro mezinárodní farmaceutické konference",ru:"Дизайн и маркетинговая поддержка для международных фарма-конференций"}, scope:{en:"Exhibitions, print & prepress, digital, video",cz:"Veletrhy, tisk a předtisková příprava, digitál, video",ru:"Выставки, полиграфия и препресс, диджитал, видео"}, plat:{k:{en:"Studio",cz:"Studio",ru:"Студия"},v:{en:"Yellow Shapes",cz:"Yellow Shapes",ru:"Yellow Shapes"}}, timeline:{en:"2024–2025",cz:"2024–2025",ru:"2024–2025"}, cat:["brand","print","web"], title:"iVigee", cover:"img/iv_cover2.jpg", year:"2024–2025",
+  tag:{en:"Brand · Exhibitions · Digital",cz:"Značka · Veletrhy · Digitál",ru:"Бренд · Выставки · Диджитал"},
+  role:{en:"Art director, graphic & UX/UI designer, prepress, video content",cz:"Art directorka, grafická a UX/UI designérka, předtisková příprava, video",ru:"Арт-директор, графический и UX/UI-дизайнер, допечатная подготовка, видео"},
+  short:{en:"A flower as a brand symbol. Booths and video for expos in the USA and Europe.",cz:"Květ jako symbol značky. Stánky a video pro veletrhy v USA a v Evropě.",ru:"Цветок как символ бренда. Стенды и видео для выставок в США и Европе."},
+  intro:{en:"iVigee makes pharmacovigilance software, with offices in Prague and Boston. Together with their marketing director I made the strelitzia flower the new brand symbol. Then I turned it into booths, gifts, print and video for conferences in the USA and Europe.",
+   cz:"iVigee vyvíjí software pro farmakovigilanci a má kanceláře v Praze a v Bostonu. Spolu s marketingovou ředitelkou jsme z květu strelície udělaly nový symbol značky. Ten jsem pak převedla do stánků, dárků, tiskovin a videí pro konference v USA a v Evropě.",
+   ru:"iVigee разрабатывает софт для фармаконадзора, офисы в Праге и Бостоне. Вместе с их маркетинг-директором мы сделали цветок стрелиции новым символом бренда. Дальше я перенесла его в стенды, подарки, полиграфию и видео для конференций в США и Европе."},
+  facts:{en:["Exhibition stands and wayfinding","iViReg product presentation, icons and web visuals","Brochures, giveaways and newsletters","Videos for the expo and the services"],
+   cz:["Výstavní stánky a navigační systém","Prezentace produktu iViReg, ikony a vizuály pro web","Brožury, dárkové předměty a newslettery","Videa pro veletrh a pro služby firmy"],
+   ru:["Выставочные стенды и навигация","Презентация продукта iViReg, иконки и визуалы для сайта","Брошюры, сувениры и рассылки","Видео для выставки и для услуг компании"]},
+  slides:["iv_expo_4_1.jpg","iv_boutique.mp4","iv_Group_134.jpg","iv_expo_vertical.mp4","iv_1-2.jpg","iv_3-2.jpg","iv_7-2.jpg","iv_expo_video.mp4","iv_6-2.jpg","iv_4.jpg","iv_5-2.jpg","iv_2-2.jpg"]},
+ {id:"cyklus-trails", hero:"ct_video2.mp4", cat:["web","brand"], title:"Cyklus Trails", story_title:{en:"End-to-end website and identity redesign for a cycling tour platform",cz:"Kompletní redesign webu a vizuální identity pro platformu cyklovýletů",ru:"Полный редизайн сайта и айдентики для платформы велотуров"}, scope:{en:"UX, UI, Identity, Development",cz:"UX, UI, identita, vývoj",ru:"UX, UI, айдентика, разработка"}, timeline:{en:"6 weeks",cz:"6 týdnů",ru:"6 недель"}, cover:"img/ct_card.jpg", link:"https://www.cyklustrails.com", year:"2026",
+  tag:{en:"Product · Web · Identity",cz:"Produkt · Web · Identita",ru:"Продукт · Сайт · Айдентика"},
+  role:{en:"Product & web designer, end to end",cz:"Produktová a webová designérka, celý projekt",ru:"Продуктовый и веб-дизайнер, весь проект"},
+  short:{en:"70+ scattered pages became one clear tour website.",cz:"Ze 70 roztříštěných stránek vznikl jeden přehledný web.",ru:"Из 70 разрозненных страниц получился один понятный сайт."},
+  intro:{en:"Self-guided bike tours across Czechia. The old site had more than 70 scattered pages, long walls of text and a price table nobody could read. I rebuilt the structure, the brand and the UI, and launched it in Tilda.",
+   cz:"Cyklovýlety po Česku na vlastní pěst. Starý web měl přes 70 roztříštěných stránek, dlouhé texty a ceník, ve kterém se nikdo nevyznal. Přestavěla jsem strukturu, značku i UI a web spustila v Tildě.",
+   ru:"Самостоятельные велотуры по Чехии. На старом сайте было больше 70 разрозненных страниц, длинные тексты и таблица цен, в которой никто не мог разобраться. Я пересобрала структуру, бренд и интерфейс и запустила сайт на Tilda."},
+  facts:{en:["One structure: home, tours hub, a page for every route","New logo and visual identity","UI system across 20+ pages","Tour pages now bring organic traffic"],
+   cz:["Jedna struktura: úvod, přehled výletů a stránka pro každou trasu","Nové logo a vizuální identita","UI systém pro více než 20 stránek","Stránky výletů dnes přivádějí organickou návštěvnost"],
+   ru:["Одна структура: главная, каталог туров и страница для каждого маршрута","Новый логотип и айдентика","UI-система на 20+ страниц","Страницы туров теперь приводят органический трафик"]},
+  before:{img:"img/ct_before_1.jpg", after:"img/ct_cyklustrails_ui_design_2.jpg"},
+  slides:["ct_video2.mp4","ct_cyklustrails_webdesign.jpg","ct_CyklusTrails_visual_identity_2.jpg","ct_CyklusTrails_visual_identity_1.jpg","ct_cyklustrails_brand_assets.jpg","ct_cyklustrails_ui_design_1.jpg","ct_cyklus_trails_ui_design_4.jpg","ct_cyklus_trails_ui_design_3.jpg","ct_cyklustrails_webdesign-2.jpg","ct_cyklustrails_webdesign_4.jpg"]},
+ {id:"praha-bike", cat:["web","brand"], title:"Praha Bike", cover:"img/pb_cover.jpg", link:"https://www.prahabike.cz", year:"2025",
+  tag:{en:"Brand · Web",cz:"Značka · Web",ru:"Бренд · Сайт"},
+  role:{en:"Product designer, brand and project lead",cz:"Produktová designérka, značka a vedení projektu",ru:"Продуктовый дизайнер, бренд и руководство проектом"},
+  short:{en:"A rental with 20 years of history. New brand, new website.",cz:"Půjčovna s dvacetiletou historií. Nová značka a nový web.",ru:"Прокат с 20-летней историей. Новый бренд и новый сайт."},
+  intro:{en:"A Prague bike rental with more than 20 years of history. The old logo showed a road bike they don't even rent, and the 2015 website lost people on the way to booking. I redrew the brand, ran a UX audit, designed the new site and led it to launch.",
+   cz:"Pražská půjčovna kol s více než dvacetiletou historií. Staré logo ukazovalo silniční kolo, které ani nepůjčují, a web z roku 2015 ztrácel zákazníky cestou k rezervaci. Překreslila jsem značku, udělala UX audit, navrhla nový web a dovedla ho až ke spuštění.",
+   ru:"Пражский прокат велосипедов с историей больше 20 лет. На старом логотипе был шоссейный велосипед, которых они даже не сдают, а сайт 2015 года терял людей по дороге к бронированию. Я перерисовала бренд, провела UX-аудит, спроектировала новый сайт и довела его до запуска."},
+  facts:{en:["UX audit and a clearer path to booking","Design system and layouts for every page","Found the developer and managed the project to launch","Photos selected, retouched and generated for the site"],
+   cz:["UX audit a jasnější cesta k rezervaci","Design systém a layouty všech stránek","Našla jsem vývojáře a vedla projekt až ke spuštění","Výběr, retuš a generování fotek pro web"],
+   ru:["UX-аудит и понятный путь к бронированию","Дизайн-система и макеты всех страниц","Нашла разработчика и довела проект до запуска","Отбор, ретушь и генерация фото для сайта"]},
+  slides:["pb_prahabike-hero.jpg","pb_City_Tour-_Praha_Bike-_Old_Town_Sq-2.jpg","pbi_16.jpg","pb_PrahaBike_advertising.jpg","pbi_1.jpg","pb_plakat_Prague.jpg"]},
+ {id:"praha-bike-print", cat:["print","brand","web"], title:"Praha Bike: tour navigation system", cover:"img/ig_1.jpg", year:"2026",
+  tag:{en:"Product · Wayfinding · Brand",cz:"Produkt · Navigace · Značka",ru:"Продукт · Навигация · Бренд"},
+  role:{en:"Art director, product and graphic designer",cz:"Art directorka, produktová a grafická designérka",ru:"Арт-директор, продуктовый и графический дизайнер"},
+  short:{en:"Turning tour information into an easy choice.",cz:"Komplexní nabídka výletů převedená do jednoduché volby.",ru:"Сложное предложение туров, превращённое в простой выбор."},
+  intro:{en:"<a href='https://www.prahabike.cz' target='_blank' rel='noopener'>Praha Bike</a> and <a href='https://www.cyklustrails.com' target='_blank' rel='noopener'>Cyklus Trails</a> offer dozens of city and countryside tours. All the information lived on two websites, and at the meeting point a visitor had only a few seconds to decide. The tour offer was restructured into one navigation system. Each route became a product card with its key parameters, and the cards became posters for the meeting point. A new logo, signage and a visual concept for the courtyard and the entrance complete the system.",
+   cz:"<a href='https://www.prahabike.cz' target='_blank' rel='noopener'>Praha Bike</a> a <a href='https://www.cyklustrails.com' target='_blank' rel='noopener'>Cyklus Trails</a> nabízejí desítky výletů po Praze i mimo ni. Všechny informace byly rozptýlené na dvou webech a návštěvník měl u místa setkání jen pár vteřin na rozhodnutí. Nabídka výletů byla přestavěna do jednoho navigačního systému. Každá trasa dostala produktovou kartu s klíčovými parametry a z karet vznikly plakáty pro místo setkání. Systém doplňuje nové logo, orientační značení a vizuální koncept dvora a vstupu.",
+   ru:"<a href='https://www.prahabike.cz' target='_blank' rel='noopener'>Praha Bike</a> и <a href='https://www.cyklustrails.com' target='_blank' rel='noopener'>Cyklus Trails</a> предлагают десятки туров по Праге и за её пределами. Вся информация была разбросана по двум сайтам, а у посетителя в точке встречи было лишь несколько секунд на решение. Предложение туров было перестроено в единую навигационную систему. Каждый маршрут получил продуктовую карточку с ключевыми параметрами, а из карточек были созданы плакаты для точки встречи. Систему дополняют новый логотип, навигационные вывески и визуальная концепция двора и входа."},
+  facts:{en:["Tour offer from two websites audited and restructured into one system","Product posters: route, duration, distance and difficulty at a glance, with a QR code to book","New logo, signage and bike stickers across all touchpoints","Visual concept for the meeting point interior and the street entrance"],
+   cz:["Audit nabídky výletů ze dvou webů a její přestavba do jednoho systému","Produktové plakáty: trasa, délka, vzdálenost a náročnost na první pohled, QR kód pro rezervaci","Nové logo, orientační značení a samolepky na kola","Vizuální koncept interiéru místa setkání a vstupu z ulice"],
+   ru:["Аудит туров с двух сайтов и перестройка в единую систему","Продуктовые плакаты: маршрут, длительность, расстояние и сложность с первого взгляда, QR-код для бронирования","Новый логотип, вывески и наклейки на велосипеды","Визуальная концепция интерьера точки встречи и входа с улицы"]},
+  slides:["ig_1.jpg","ig_2.jpg","ig_3.jpg","ig_4.jpg","ig_5.jpg","ig_6.jpg","ig_7.jpg","ig_8.jpg","ig_9.jpg","ig_11.jpg","ig_12.jpg","ig_13.jpg","ig_14.jpg","ig_15.jpg","ig_16.jpg","ig_17.jpg","ig_18.jpg"]},
+ {id:"villa-anezka", cat:["web","brand"], title:"Villa Anežka", cover:"img/va_cover.jpg", link:"https://funnyartwork-ai.github.io/villa-anezka-site/", year:"2026",
+  tag:{en:"Brand · Web · AI",cz:"Značka · Web · AI",ru:"Бренд · Сайт · AI"},
+  role:{en:"Concept, art direction, branding, motion and an AI-built site",cz:"Koncept, art direction, značka, motion a web postavený s AI",ru:"Концепция, арт-дирекшн, бренд, моушн и сайт, собранный с AI"},
+  short:{en:"A boutique stay in the hop region. From the first idea to launch.",cz:"Butikové ubytování v chmelařském kraji. Od nápadu po spuštění.",ru:"Бутик-отель в хмелевом крае. От идеи до запуска."},
+  intro:{en:"A boutique stay in the Žatec hop region. I took it from the first idea to a live website: concept, logo, design system, AI visuals and film. The site is coded with Claude.",
+   cz:"Butikové ubytování v žateckém chmelařském kraji. Dovedla jsem ho od prvního nápadu až k živému webu: koncept, logo, design systém, AI vizuály a film. Web je naprogramovaný s pomocí Claude.",
+   ru:"Бутик-отель в жатецком хмелевом крае. Я провела его от первой идеи до работающего сайта: концепция, логотип, дизайн-система, AI-визуалы и фильм. Сайт написан в коде вместе с Claude."},
+  facts:{en:["Logo and logo guidelines","Design system: colour, type, photo style","AI visuals and a 4K film","Website coded with AI and launched"],
+   cz:["Logo a logomanuál","Design systém: barvy, písmo, styl fotografií","AI vizuály a film ve 4K","Web naprogramovaný s AI a spuštěný"],
+   ru:["Логотип и логобук","Дизайн-система: цвет, шрифты, стиль фото","AI-визуалы и фильм в 4K","Сайт, написанный с AI и запущенный"]},
+  slides:["va_film.mp4","va_video_h.mp4","va_VA_Cover_01.jpg","va_villa_anezka_1_mockup_fixed.jpg","va_Villa_Anezka_Logo_Guidelines.jpg","va_video_m.mp4","va_Villa_Anezka_Design_System.jpg","va_villa_anezka_2_mockup_fixed.jpg","va_postcard_anezka.jpg"]},
+ {id:"esbm", hero:"es_10.jpg", cat:["brand","web"], title:"ESBM", cover:"img/es_cover.jpg", year:"2014 / 2025",
+  story_title:{en:"Logo redesign and a new website for an international business school",cz:"Redesign loga a nový web pro mezinárodní obchodní školu",ru:"Редизайн логотипа и новый сайт для международной бизнес-школы"},
+  scope:{en:"Logo, identity, web design, campaign",cz:"Logo, identita, webdesign, kampaň",ru:"Логотип, айдентика, веб-дизайн, кампания"},
+  plat:{k:{en:"Client",cz:"Klient",ru:"Клиент"},v:{en:"ESBM",cz:"ESBM",ru:"ESBM"}},
+  timeline:{en:"2014 / 2025",cz:"2014 / 2025",ru:"2014 / 2025"},
+  tag:{en:"Logo · Identity · Web",cz:"Logo · Identita · Web",ru:"Логотип · Айдентика · Сайт"},
+  role:{en:"Graphic and web designer",cz:"Grafická a webová designérka",ru:"Графический и веб-дизайнер"},
+  short:{en:"Logo created in 2014 and still in use. Redesigned in 2025.",cz:"Logo z roku 2014 se používá dodnes. V roce 2025 prošlo redesignem.",ru:"Логотип 2014 года используется до сих пор. В 2025 сделан редизайн."},
+  intro:{en:"",cz:"",ru:""}, facts:{en:[],cz:[],ru:[]}, slides:["es_10.jpg"]},
+ {id:"calor", hero:"ca_08.jpg", cat:["brand","web"], title:"Calor", cover:"img/ca_cover2.jpg", year:"2025",
+  story_title:{en:"New logo and visual identity for a heating company with roots in 1992",cz:"Nové logo a vizuální identita pro topenářskou firmu s kořeny v roce 1992",ru:"Новый логотип и айдентика для отопительной компании с историей с 1992 года"},
+  scope:{en:"Logo, identity, website concept",cz:"Logo, identita, koncept webu",ru:"Логотип, айдентика, концепция сайта"},
+  plat:{k:{en:"Client",cz:"Klient",ru:"Клиент"},v:{en:"Calor (ACTHERM)",cz:"Calor (ACTHERM)",ru:"Calor (ACTHERM)"}},
+  timeline:{en:"2025",cz:"2025",ru:"2025"},
+  tag:{en:"Logo · Identity",cz:"Logo · Identita",ru:"Логотип · Айдентика"},
+  role:{en:"Graphic designer",cz:"Grafická designérka",ru:"Графический дизайнер"},
+  short:{en:"A heating company since 1992. A new logo with old roots.",cz:"Topenářská firma od roku 1992. Nové logo se starými kořeny.",ru:"Отопительная компания с 1992 года. Новый логотип со старыми корнями."},
+  intro:{en:"",cz:"",ru:""}, facts:{en:[],cz:[],ru:[]}, slides:["ca_08.jpg"]}
+];
+
+const CT_STORY = [
+ {k:"context", h:{en:"Context",cz:"Kontext",ru:"Контекст"},
+  p:{en:"Cyklus Trails is a cycling travel service offering self-guided bike tours across Czechia. The platform combines route planning, bike rental, logistics and support, and bike and luggage delivery, enabling independent travel without friction.",
+     cz:"Cyklus Trails je cestovní služba, která nabízí cyklovýlety po Česku na vlastní pěst. Platforma spojuje plánování tras, půjčovnu kol, logistiku a podporu i převoz kol a zavazadel, takže samostatné cestování probíhá bez komplikací.",
+     ru:"Cyklus Trails это сервис самостоятельных велотуров по Чехии. Платформа объединяет планирование маршрутов, прокат велосипедов, логистику и поддержку, доставку велосипедов и багажа, чтобы путешествовать самостоятельно было легко."},
+  imgs:["c_m1.jpg","c_m2.jpg","c_m3.jpg","c_m4.jpg"], layout:"phones"},
+ {k:"problem", h:{en:"Problem",cz:"Problém",ru:"Проблема"},
+  lead:{en:"The platform didn't match the quality of the service.",cz:"Web neodpovídal kvalitě služby.",ru:"Сайт не соответствовал качеству сервиса."},
+  list:{en:["Confusing structure: users couldn't understand the offer","Weak UX: hard to choose a tour","Not mobile-first: poor real usage scenario","Outdated visuals: low trust","Content overload: cognitive fatigue"],
+        cz:["Nepřehledná struktura: uživatelé nerozuměli nabídce","Slabé UX: těžko se vybíral výlet","Web nebyl mobile-first, i když ho lidé používají hlavně v mobilu","Zastaralý vzhled: nízká důvěra","Přemíra obsahu: kognitivní únava"],
+        ru:["Запутанная структура: пользователи не понимали предложение","Слабый UX: сложно выбрать тур","Не mobile-first, хотя сайтом пользуются в основном с телефона","Устаревший визуал: низкое доверие","Перегруз контентом: когнитивная усталость"]},
+  caps:{en:["Content overload and poor scanability","","Pricing is hard to understand",""],cz:["Přemíra obsahu a špatná čitelnost","","Nesrozumitelný ceník",""],ru:["Перегруз контентом, текст трудно сканировать","","Цены трудно понять",""]},
+  imgs:["c_before1.jpg","c_after1.jpg","c_before2.jpg","c_after2.jpg"], layout:"grid2", imgs2:["c_old.jpg"], layout2:"full"},
+ {k:"ia", h:{en:"Information architecture",cz:"Informační architektura",ru:"Информационная архитектура"},
+  lead:{en:"From chaos to a structured product system. 70+ fragmented pages were consolidated into core pages, guided flows and service components.",cz:"Od chaosu ke strukturovanému produktu. Více než 70 roztříštěných stránek se spojilo do hlavních stránek, vedených průchodů a servisních komponent.",ru:"От хаоса к структурированному продукту. Более 70 разрозненных страниц сведены в основные страницы, понятные сценарии и сервисные компоненты."},
+  sitemap:true},
+ {k:"ux", h:{en:"UX & navigation",cz:"UX a navigace",ru:"UX и навигация"},
+  lead:{en:"Simplified navigation and a clear user flow for tour selection.",cz:"Zjednodušená navigace a jasná cesta k výběru výletu.",ru:"Упрощённая навигация и понятный путь к выбору тура."},
+  list:{en:["Reduced content density to improve scanning","Tabs and accordions to manage complexity","Focus shifted from information to decision-making"],cz:["Méně textu na obrazovce pro rychlé čtení","Záložky a akordeony pro složitý obsah","Důraz přesunutý z informací na rozhodnutí"],ru:["Меньше текста на экране, его легко сканировать","Вкладки и аккордеоны для сложного контента","Фокус сместился с информации на принятие решения"]},
+  imgs:["c_ux12.jpg","c_ux13.jpg","c_ux14.jpg","c_ux15.jpg","c_ux16.jpg","c_ux11.jpg"], layout:"phones6"},
+ {k:"content", h:{en:"Content system",cz:"Obsahový systém",ru:"Контентная система"},
+  lead:{en:"Large volumes of content transformed into a structured, scannable system.",cz:"Velké množství obsahu převedené do přehledného systému, který se dá rychle projít.",ru:"Большие объёмы контента превращены в структурированную систему, которую легко просматривать."},
+  imgs:["c_s1.jpg"], layout:"full"},
+ {k:"identity", h:{en:"Visual identity",cz:"Vizuální identita",ru:"Айдентика"},
+  lead:{en:"A fresh visual identity aligned with the product positioning.",cz:"Nová vizuální identita, která odpovídá pozici produktu.",ru:"Новая айдентика, соответствующая позиционированию продукта."},
+  logos:true, imgs:["ct_CyklusTrails_visual_identity_2.jpg","ct_CyklusTrails_visual_identity_1.jpg"], layout:"grid2", imgs2:["c_icons.jpg","ct_cyklustrails_brand_assets.jpg"], layout2:"full"},
+ {k:"ui", h:{en:"UI design",cz:"UI design",ru:"UI-дизайн"},
+  lead:{en:"A flexible UI system ensuring consistency across 20+ pages.",cz:"Flexibilní UI systém, který drží jednotný vzhled na více než 20 stránkách.",ru:"Гибкая UI-система, которая держит единый стиль на 20+ страницах."},
+  imgs:["ct_cyklustrails_ui_design_1.jpg","c_s4.jpg","ct_cyklus_trails_ui_design_3.jpg","ct_cyklus_trails_ui_design_4.jpg"], layout:"grid2"},
+ {k:"results", h:{en:"Results",cz:"Výsledky",ru:"Результаты"},
+  lead:{en:"A fully redesigned website with a clear user journey, an improved information structure and a scalable visual system.",cz:"Kompletně přepracovaný web s jasnou cestou uživatele, lepší strukturou informací a škálovatelným vizuálním systémem.",ru:"Полностью переработанный сайт с понятным пользовательским путём, улучшенной структурой информации и масштабируемой визуальной системой."},
+  list:{en:["Clear user journey from the first screen to booking","Information restructured into a scalable product system","Technical SEO foundations set up","Google Search Console connected for indexing and monitoring"],
+        cz:["Jasná cesta uživatele od první obrazovky po rezervaci","Informace přestavěné do škálovatelného produktového systému","Nastavené technické základy SEO","Připojená Google Search Console pro indexaci a sledování"],
+        ru:["Понятный путь пользователя от первого экрана до бронирования","Информация перестроена в масштабируемую продуктовую систему","Настроена техническая база SEO","Подключена Google Search Console для индексации и мониторинга"]}}
+];
+const SITEMAP = {before:["/are-panniers-provided-some-us-could-bring-our-own-if-necessary","/are-there-atms-czech-republic-and-are-credit-cards-accepted","/can-i-take-bikes-train","/what-do-i-do-if-bikes-get-broken","/what-should-i-bring-my-trip","/blog/biking-along-elbe-river-melnik-litomerice","/blog/cycling-trip-cesky-krumlov","/bike-tours-one-multi-days-easy-challenging/…"],
+ after:["/ (Homepage)","/tours","/prague-dresden-bike-ride","/prague-cesky-krumlov-bike-ride","/prague-lednice-vienna-bike-ride","/about-us","/faq","/our-bikes-and-equipment","/cycling-levels-and-ride-styles","/navigation-and-directions","/additional-services"]};
+const STORY_T = {en:{more:"…and 60+ more pages",pages70:"70+ pages",pages11:"11 pages",oldlogo:"Old logo",newlogo:"New logo",sb:"Old sitemap",sa:"New sitemap",scope:"Scope",platform:"Platform",timeline:"Timeline"},
+ cz:{more:"…a dalších 60+ stránek",pages70:"70+ stránek",pages11:"11 stránek",oldlogo:"Původní logo",newlogo:"Nové logo",sb:"Původní mapa webu",sa:"Nová mapa webu",scope:"Rozsah",platform:"Platforma",timeline:"Délka"},
+ ru:{more:"…и ещё 60+ страниц",pages70:"70+ страниц",pages11:"11 страниц",oldlogo:"Старый логотип",newlogo:"Новый логотип",sb:"Старая карта сайта",sa:"Новая карта сайта",scope:"Объём",platform:"Платформа",timeline:"Срок"}};
+
+function storyMedia(src, all){
+  const i = all.indexOf(src);
+  const inner = src.endsWith(".mp4") ? `<video src="img/${src}" autoplay muted loop playsinline preload="metadata"></video>` : `<img src="img/${src}" alt="" loading="lazy">`;
+  return `<button type="button" class="st-m" data-k="${i}">${inner}</button>`;
+}
+function storyBlock(list, layout, all, caps){
+  if(!list) return "";
+  return `<div class="st-${layout}">${list.map((s,j)=>caps&&caps[j]?`<figure>${storyMedia(s,all)}<figcaption>${caps[j]}</figcaption></figure>`:storyMedia(s,all)).join("")}</div>`;
+}
+function renderStory(c, el){
+  const ST = STORY_T[lang], all=[], SS=c.story;
+  SS.forEach(s=>{(s.imgs||[]).forEach(x=>all.push(x)); (s.imgs2||[]).forEach(x=>all.push(x)); (s.imgs3||[]).forEach(x=>all.push(x));});
+  const secs = SS.map((s,i)=>`
+    <section class="st-sec"><div class="wrap">
+      <div class="st-head"><span class="st-n">${i+1}</span><h2>${L(s.h)}</h2></div>
+      ${s.p?`<p class="st-p">${L(s.p)}</p>`:""}
+      ${s.lead?`<p class="st-p">${L(s.lead)}</p>`:""}
+      ${s.list?`<ul class="facts">${L(s.list).map(f=>`<li>${f}</li>`).join("")}</ul>`:""}
+      ${s.sitemap?`<div class="st-grid2 st-map"><div class="before"><span class="cnt">${ST.pages70}</span><b>${ST.sb}</b><ul>${SITEMAP.before.map(u=>`<li>${u}</li>`).join("")}<li class="more">${ST.more}</li></ul></div><div class="after"><span class="cnt">${ST.pages11}</span><b>${ST.sa}</b><ul>${SITEMAP.after.map(u=>`<li>${u}</li>`).join("")}</ul></div></div>`:""}
+      ${s.logos?`<div class="st-grid2 st-logos"><figure><img src="img/c_oldlogo.jpg" alt=""><figcaption>${ST.oldlogo}</figcaption></figure><figure><img src="img/c_logo.jpg" alt=""><figcaption>${ST.newlogo}</figcaption></figure></div>`:""}
+      ${storyBlock(s.imgs, s.layout, all, s.caps?L(s.caps):null)}
+      ${storyBlock(s.imgs2, s.layout2, all)}
+      ${storyBlock(s.imgs3, s.layout3, all)}
+    </div></section>`).join("");
+  return {html:secs, all};
+}
+
+const TESTI = [
+ {name:"Oleh Zahiney", ini:"OZ", photo:"img/t_oleh.jpg", role:{en:"Founder & Owner, Praha Bike and Cyklus Trails",cz:"Zakladatel a majitel, Praha Bike a Cyklus Trails",ru:"Основатель и владелец Praha Bike и Cyklus Trails"}, src:"LinkedIn · 2026", text:{en:"Working with Anna was a great experience. She took the time to understand our business, asked thoughtful questions, and came up with creative solutions instead of simply following instructions. The whole process was smooth, collaborative, and professional, and the final designs for Cyklus Trails and Praha Bike truly reflect our brands. We highly recommend Anna to anyone looking for a designer who combines creativity with a genuine understanding of business goals. Thank you, Anna!",cz:"Working with Anna was a great experience. She took the time to understand our business, asked thoughtful questions, and came up with creative solutions instead of simply following instructions. The whole process was smooth, collaborative, and professional, and the final designs for Cyklus Trails and Praha Bike truly reflect our brands. We highly recommend Anna to anyone looking for a designer who combines creativity with a genuine understanding of business goals. Thank you, Anna!",ru:"Анна проделала отличную работу над проектом Cyklus Trails. С самого начала было видно, что для неё важно не просто сделать красивый дизайн, а по-настоящему понять проект, его идею, аудиторию и задачи. Анна внимательно слушала, задавала правильные вопросы и предлагала решения, о которых мы сами не всегда задумывались. Благодаря этому дизайн получился не только эстетичным, но и действительно работающим на наш бизнес.\n\nОсобенно понравилось, что Анна всегда искала лучший вариант, а не самый простой. Она спокойно воспринимала обратную связь, быстро вносила изменения и при этом сохраняла своё профессиональное видение. Всё сотрудничество проходило легко, без лишнего стресса, с ощущением, что человек искренне заинтересован в результате.\n\nДля меня работа с дизайнером — это прежде всего доверие. С Анной именно так и получилось. Я чувствовал, что проект находится в надёжных руках, а итог превзошёл мои ожидания.\n\nСпасибо, Анна, за профессионализм, творческий подход и искреннее отношение к своему делу. С удовольствием буду рекомендовать тебя тем, кто ищет дизайнера, способного не просто оформить идею, а понять её и превратить в сильный визуальный образ."}},
+ {name:"Nikolaj Kulbakov", ini:"NK", photo:"img/t_nikolaj.jpg", role:{en:"Data & Cloud Engineer, client",cz:"Data & Cloud Engineer, klient",ru:"Data & Cloud Engineer, клиент"}, src:"LinkedIn · 2026", text:{en:"I had the pleasure of working with Anna on several creative projects, including the development of visual concepts and illustrations for my tourism project.\n\nAnna quickly understood the ideas and goals behind the project and was able to transform them into engaging visual solutions. She combines creativity with a strong sense of responsibility and attention to detail, taking ownership of the process from the initial idea through to the final result.\n\nBeyond her professional skills, Anna is a very pleasant person to collaborate with — communication with her is easy, open, and inspiring. I appreciated her ability to bring ideas to life while creating a positive and enjoyable working atmosphere.\n\nI would gladly recommend Anna to anyone looking for a creative professional who can combine strong visual thinking with reliability and a collaborative approach.",cz:"I had the pleasure of working with Anna on several creative projects, including the development of visual concepts and illustrations for my tourism project.\n\nAnna quickly understood the ideas and goals behind the project and was able to transform them into engaging visual solutions. She combines creativity with a strong sense of responsibility and attention to detail, taking ownership of the process from the initial idea through to the final result.\n\nBeyond her professional skills, Anna is a very pleasant person to collaborate with — communication with her is easy, open, and inspiring. I appreciated her ability to bring ideas to life while creating a positive and enjoyable working atmosphere.\n\nI would gladly recommend Anna to anyone looking for a creative professional who can combine strong visual thinking with reliability and a collaborative approach.",ru:"I had the pleasure of working with Anna on several creative projects, including the development of visual concepts and illustrations for my tourism project.\n\nAnna quickly understood the ideas and goals behind the project and was able to transform them into engaging visual solutions. She combines creativity with a strong sense of responsibility and attention to detail, taking ownership of the process from the initial idea through to the final result.\n\nBeyond her professional skills, Anna is a very pleasant person to collaborate with — communication with her is easy, open, and inspiring. I appreciated her ability to bring ideas to life while creating a positive and enjoyable working atmosphere.\n\nI would gladly recommend Anna to anyone looking for a creative professional who can combine strong visual thinking with reliability and a collaborative approach."}}
+];
+function renderTesti(){
+  document.getElementById("testi").innerHTML = TESTI.map((r,i)=>`
+   <article class="review">
+     <div class="who">${r.photo?`<img class="ava" src="${r.photo}" alt="" width="48" height="48">`:`<span class="ava" aria-hidden="true">${r.ini}</span>`}<div><b>${r.name}</b><span>${L(r.role)}</span></div></div>
+     <div class="rv-meta">★★★★★ · ${r.src}</div>
+     <p class="rv-text" id="rv${i}">${L(r.text).replace(/\n/g,"<br>")}</p>
+     <button type="button" class="rv-more" data-r="${i}" aria-expanded="false" aria-controls="rv${i}">${t("more")}</button>
+   </article>`).join("");
+  document.querySelectorAll(".rv-more").forEach(b=>b.addEventListener("click",()=>{const p=document.getElementById("rv"+b.dataset.r); const o=p.classList.toggle("open"); b.setAttribute("aria-expanded",String(o)); b.textContent=o?t("less"):t("more");}));
+}
+const IV_STORY = [
+ {k:"task", h:{en:"Context & task",cz:"Kontext a zadání",ru:"Контекст и задача"},
+  p:{en:"ivigee.com is an international company providing pharmacovigilance technology and service solutions, with offices in Prague and Boston. The task: provide visual support for the company's participation in international conferences and for ongoing marketing activities.",
+     cz:"ivigee.com je mezinárodní společnost, která dodává technologie a služby v oblasti farmakovigilance, s kancelářemi v Praze a v Bostonu. Zadání: vizuální podpora účasti firmy na mezinárodních konferencích a průběžných marketingových aktivit.",
+     ru:"ivigee.com это международная компания, которая предоставляет технологии и сервисы в области фармаконадзора, с офисами в Праге и Бостоне. Задача: визуальная поддержка участия компании в международных конференциях и текущих маркетинговых активностей."},
+},
+ {k:"symbol", h:{en:"Brand symbol & giveaways",cz:"Symbol značky a dárky",ru:"Символ бренда и подарки"},
+  p:{en:"The strelitzia flower was introduced as a new brand symbol and a signature giveaway. Its orange colour runs through the badges, lanyards, printed materials and the booth, so the brand stands out at conferences in the USA and Europe.",
+     cz:"Květ strelície se stal novým symbolem značky a typickým dárkem pro návštěvníky. Jeho oranžová barva prochází visačkami, šňůrkami, tiskovinami i stánkem, takže značka na konferencích v USA a v Evropě výrazně vyniká.",
+     ru:"Цветок стрелиции стал новым символом бренда и фирменным подарком для гостей стенда. Его оранжевый цвет проходит через бейджи, ленты, печатные материалы и сам стенд, поэтому бренд выделяется на конференциях в США и Европе."},
+  imgs:["iv_x_ig4.jpg","iv_x_ig10.jpg"], layout:"grid2", imgs2:["iv_x_ig6.jpg"], layout2:"full", imgs3:["iv_x_ig1.jpg","iv_x_ig5.jpg"], layout3:"grid2"},
+ {k:"stands", h:{en:"Exhibition stands & navigation",cz:"Výstavní stánky a navigace",ru:"Выставочные стенды и навигация"},
+  p:{en:"Large-format stands, roll-ups and screens built as one system, with wayfinding that leads visitors to the right product. From 3D concept to the real booth at the conference.",cz:"Velkoformátové stánky, roll-upy a obrazovky jako jeden systém, s navigací, která návštěvníka dovede ke správnému produktu. Od 3D konceptu po skutečný stánek na konferenci.",ru:"Крупноформатные стенды, ролл-апы и экраны как единая система с навигацией, которая ведёт посетителя к нужному продукту. От 3D-концепции до реального стенда на конференции."},
+  imgs:["iv_x_ig21.jpg"], layout:"full", imgs2:["iv_booth.mp4"], layout2:"full"},
+ {k:"product", h:{en:"Product branding & icons",cz:"Branding produktů a ikony",ru:"Брендинг продуктов и иконки"},
+  p:{en:"A product family for iViReg, iViSight and iViTracker, with a custom icon set for presentations, the website and print.",cz:"Produktová rodina iViReg, iViSight a iViTracker s vlastní sadou ikon pro prezentace, web i tiskoviny.",ru:"Продуктовая линейка iViReg, iViSight и iViTracker с собственным набором иконок для презентаций, сайта и полиграфии."},
+  imgs:["i_f120.jpg","i_f121.jpg"], layout:"grid2", imgs2:["iv_4.jpg","iv_5-2.jpg"], layout2:"grid2"},
+ {k:"print", h:{en:"Print, gifts & prepress",cz:"Tiskoviny, dárky a předtisková příprava",ru:"Полиграфия, подарки и допечатная подготовка"},
+  p:{en:"Brochures, badges, lanyards, tote bags and stand graphics in one visual language, with print-ready files prepared for production.",cz:"Brožury, visačky, šňůrky, tašky a grafika stánků v jednom vizuálním jazyce, včetně přípravy tiskových podkladů pro výrobu.",ru:"Брошюры, бейджи, ленты для бейджей, сумки и графика стендов в едином визуальном языке, включая подготовку файлов к печати."},
+  imgs:["iv_x_ig23.jpg","iv_x_ig20.jpg"], layout:"grid2"},
+ {k:"digital", h:{en:"Website & presentations",cz:"Web a prezentace",ru:"Сайт и презентации"},
+  p:{en:"Presentations, marketing newsletters, website design elements and visual updates.",cz:"Prezentace, marketingové newslettery, prvky webdesignu a vizuální aktualizace.",ru:"Презентации, маркетинговые рассылки, элементы дизайна сайта и визуальные обновления."},
+  imgs:["i_laptop1.jpg","i_laptop2.jpg","i_iphone.jpg"], layout:"grid3"},
+ {k:"video", h:{en:"Video for the expo",cz:"Video pro veletrh",ru:"Видео для выставки"},
+  p:{en:"Motion content for the booth screens and social media.",cz:"Video obsah pro obrazovky na stánku a sociální sítě.",ru:"Видеоконтент для экранов на стенде и соцсетей."},
+  imgs:["iv_expo_video.mp4"], layout:"full", imgs2:["iv_expo_vertical.mp4"], layout2:"single", imgs3:["iv_boutique.mp4"], layout3:"full"},
+ {k:"live", h:{en:"At the conference",cz:"Na konferenci",ru:"На конференции"},
+  p:{en:"The booth in real life.",cz:"Stánek naživo.",ru:"Стенд вживую."},
+  imgs:["iv_live1.jpg","iv_live2.jpg","iv_live3.jpg","iv_live4.jpg"], layout:"small4"}
+];
+
+const ES_STORY = [
+ {k:"task", h:{en:"Context & task",cz:"Kontext a zadání",ru:"Контекст и задача"},
+  p:{en:"ESBM, European School of Business & Management, is an international school offering vocational education in MBA, DBA, BBA, LLM and MSc programmes. The logo and brand identity were created in 2014, and the school still uses them. The task in 2025: update the logo and the website while keeping the brand recognisable.",
+     cz:"ESBM, European School of Business & Management, je mezinárodní škola, která nabízí profesní vzdělávání v programech MBA, DBA, BBA, LLM a MSc. Logo a identita vznikly v roce 2014 a škola je používá dodnes. Zadání v roce 2025: aktualizovat logo a web tak, aby značka zůstala rozpoznatelná.",
+     ru:"ESBM, European School of Business & Management, это международная школа профессионального образования по программам MBA, DBA, BBA, LLM и MSc. Логотип и айдентика созданы в 2014 году, и школа использует их до сих пор. Задача 2025 года: обновить логотип и сайт, сохранив узнаваемость бренда."}},
+ {k:"logo", h:{en:"Logo redesign",cz:"Redesign loga",ru:"Редизайн логотипа"},
+  p:{en:"The redesign keeps the original concept and brings it up to date. A cleaner sign and a new palette of deep blue, light blue and green.",
+     cz:"Redesign zachovává původní koncept a posouvá ho do současnosti. Čistší znak a nová paleta tmavě modré, světle modré a zelené.",
+     ru:"Редизайн сохраняет исходную концепцию и делает её современной. Более чистый знак и новая палитра: глубокий синий, светло-голубой и зелёный."},
+  imgs:["es_04.jpg","es_05.jpg"], layout:"grid2"},
+ {k:"web", h:{en:"Website",cz:"Web",ru:"Сайт"},
+  p:{en:"A new website in the updated identity. The first screen leads with the offer and a clear call to action.",
+     cz:"Nový web v aktualizované identitě. První obrazovka staví na nabídce a jasné výzvě k akci.",
+     ru:"Новый сайт в обновлённой айдентике. Первый экран строится на предложении и понятном призыве к действию."},
+  imgs:["es_02.jpg","es_03.jpg"], layout:"grid2", imgs2:["es_08.jpg"], layout2:"full"},
+ {k:"campaign", h:{en:"MBA campaign",cz:"Kampaň MBA",ru:"Кампания MBA"},
+  p:{en:"The new identity carried into the advertising campaign: posters for the metro and city lights, plus badges for the school's events.",
+     cz:"Nová identita se propsala do reklamní kampaně: plakáty do metra a citylighty i visačky pro akce školy.",
+     ru:"Новая айдентика перешла в рекламную кампанию: постеры для метро и ситилайты, а также бейджи для мероприятий школы."},
+  imgs:["es_09.jpg","es_06.jpg"], layout:"grid2", imgs2:["es_11.jpg"], layout2:"full"}
+];
+const CA_STORY = [
+ {k:"task", h:{en:"Context & task",cz:"Kontext a zadání",ru:"Контекст и задача"},
+  p:{en:"CALOR, from the Latin for heat, is a Czech company formerly known as ACTHERM. Since 1992 it has installed heating systems, reduced energy costs and introduced eco-friendly technologies. The task: develop a new logo inspired by the ACTHERM logo.",
+     cz:"CALOR, latinsky teplo, je česká firma dříve známá jako ACTHERM. Od roku 1992 instaluje topné systémy, snižuje náklady na energie a zavádí ekologické technologie. Zadání: vytvořit nové logo inspirované logem ACTHERM.",
+     ru:"CALOR, по-латыни «тепло», это чешская компания, ранее известная как ACTHERM. С 1992 года она устанавливает системы отопления, снижает расходы на энергию и внедряет экологичные технологии. Задача: разработать новый логотип по мотивам логотипа ACTHERM."}},
+ {k:"logo", h:{en:"Logo",cz:"Logo",ru:"Логотип"},
+  p:{en:"A flame inside the letter O turns the name into a sign of heat. A warm gradient runs from yellow to deep red.",
+     cz:"Plamen v písmenu O mění název ve znak tepla. Teplý přechod vede od žluté po sytě červenou.",
+     ru:"Пламя внутри буквы O превращает название в знак тепла. Тёплый градиент идёт от жёлтого к глубокому красному."},
+  imgs:["ca_02.jpg"], layout:"full"},
+ {k:"web", h:{en:"Website concept",cz:"Koncept webu",ru:"Концепция сайта"},
+  p:{en:"The website concept in the new identity, before and after.",cz:"Koncept webu v nové identitě, před a po.",ru:"Концепция сайта в новой айдентике, до и после."},
+  imgs:["ca_06.jpg","ca_07.jpg"], layout:"grid2", imgs2:["ca_05.jpg"], layout2:"full", imgs3:["ca_03.jpg","ca_04.jpg"], layout3:"grid2"},
+ {k:"identity", h:{en:"Identity in use",cz:"Identita v praxi",ru:"Айдентика в работе"},
+  p:{en:"Stationery, business cards, branded tape and a car wrap in one visual language.",cz:"Tiskoviny, vizitky, firemní páska a polep auta v jednom vizuálním jazyce.",ru:"Деловая документация, визитки, фирменный скотч и оклейка автомобиля в едином визуальном языке."},
+  imgs:["ca_11.jpg","ca_12.jpg"], layout:"grid2", imgs2:["ca_10.jpg","ca_09.jpg"], layout2:"grid2", imgs3:["ca_14.jpg"], layout3:"full"},
+ {k:"visuals", h:{en:"Key visuals",cz:"Klíčové vizuály",ru:"Ключевые визуалы"},
+  imgs:["ca_13.jpg","ca_15.jpg"], layout:"grid2"}
+];
+CASES.find(x=>x.id==="cyklus-trails").story=CT_STORY;
+CASES.find(x=>x.id==="esbm").story=ES_STORY;
+CASES.find(x=>x.id==="calor").story=CA_STORY;
+const CASE_ORDER=["cyklus-trails","ivigee","karlin","villa-anezka","praha-bike","praha-bike-print","esbm","calor"];
+CASES.sort((a,b)=>CASE_ORDER.indexOf(a.id)-CASE_ORDER.indexOf(b.id));
+CASES.find(x=>x.id==="ivigee").story=IV_STORY;
+const MOTION = ["mo_italy.mp4","mo_prsi.mp4","iv_boutique.mp4","va_video_m.mp4","va_film.mp4","mo_squash.mp4","ct_social1.mp4","ct_video2.mp4","mo_praha.mp4","ct_social2.mp4","dk_flip.mp4"];
+const LANGS = ["en","cz"];
+
+let lang = "en";
+try{ const v=localStorage.getItem("lang"); if(LANGS.includes(v)) lang=v; }catch(e){}
+const t = k => T[lang][k];
+const L = o => o[lang];
+let heroIdx = 0;
+
+function media(src, alt){
+  if(src.endsWith(".mp4")) return `<video src="img/${src}" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>`;
+  return `<img src="img/${src}" alt="${alt||""}" decoding="async">`;
+}
+
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let loops = [], globalPause = false;
+function buildMarquee(el, items, speed){
+  const one = items.map((s,i) => `<button type="button" class="s" data-k="${i}" aria-label="Open image ${i+1}">${media(s,"")}</button>`).join("");
+  el.innerHTML = `<div class="track">${one}${reduce?"":one}</div>
+    <div class="mq-controls">
+      <button type="button" class="mq-prev" aria-label="Previous">←</button>
+      <button type="button" class="mq-play" aria-label="Pause"></button>
+      <button type="button" class="mq-next" aria-label="Next">→</button>
+      ${items.some(x=>x.endsWith(".mp4"))?'<button type="button" class="mq-sound" aria-pressed="false" aria-label="Sound on"></button>':''}
+    </div>`;
+  const st = {track:el.firstElementChild, x:0, target:null, speed, paused:false, stopped:false, el, items};
+  st.track.addEventListener("mouseenter",()=>st.paused=true);
+  st.track.addEventListener("mouseleave",()=>st.paused=false);
+  const play = el.querySelector(".mq-play");
+  st.setPlay = on => { st.stopped=!on; play.innerHTML = on
+    ? '<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="2" width="3.5" height="12" fill="currentColor"/><rect x="9.5" y="2" width="3.5" height="12" fill="currentColor"/></svg>'
+    : '<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2l10 6-10 6z" fill="currentColor"/></svg>';
+    play.setAttribute("aria-label", on?"Pause":"Play"); };
+  st.setPlay(!reduce);
+  play.addEventListener("click",()=>st.setPlay(st.stopped));
+  const snd = el.querySelector(".mq-sound");
+  if(snd){
+    const icon = on => on
+      ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7M19 5.5a9 9 0 0 1 0 13"/></svg>'
+      : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M17 9l5 6M22 9l-5 6"/></svg>';
+    st.sound=false; snd.innerHTML=icon(false);
+    snd.addEventListener("click",()=>{ st.sound=!st.sound; snd.innerHTML=icon(st.sound); snd.setAttribute("aria-pressed",String(st.sound)); snd.setAttribute("aria-label", st.sound?"Sound off":"Sound on"); if(!st.sound) st.track.querySelectorAll("video").forEach(v=>v.muted=true); });
+  }
+  el.querySelector(".mq-prev").addEventListener("click",()=>nudge(st,1));
+  el.querySelector(".mq-next").addEventListener("click",()=>nudge(st,-1));
+  st.track.addEventListener("click",e=>{const b=e.target.closest(".s"); if(b) openLb(st,+b.dataset.k);});
+  if(reduce){ el.style.overflowX="auto"; return; }
+  loops.push(st);
+}
+function nudge(st,dir){
+  if(reduce){ st.el.scrollBy({left:-dir*480,behavior:"smooth"}); return; }
+  const w = (st.track.querySelector(".s")||{}).offsetWidth || 400;
+  st.target = st.x + dir*(w+16);
+}
+let last = performance.now();
+function tick(now){
+  const dt = Math.min(64, now-last); last = now;
+  loops = loops.filter(st=>st.el.isConnected);
+  for(const st of loops){
+    const half = st.track.scrollWidth/2;
+    if(st.target!==null){
+      const d = st.target - st.x; st.x += d*Math.min(1,dt/120);
+      if(Math.abs(d)<0.5){ st.x=st.target; st.target=null; }
+    } else if(!st.paused && !st.stopped && !globalPause){
+      st.x -= st.speed*dt/1000;
+    }
+    if(half>0){ while(-st.x >= half){ st.x += half; if(st.target!==null) st.target += half; } while(st.x > 0){ st.x -= half; if(st.target!==null) st.target -= half; } }
+    st.track.style.transform = `translateX(${st.x}px)`;
+  }
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+
+/* audio follows the video nearest the centre */
+setInterval(()=>{
+  for(const st of loops){
+    if(!st.sound) continue;
+    const vids=[...st.track.querySelectorAll("video")], cx=innerWidth/2;
+    /* keep the current voice while it is still on screen and near the centre; switch only when another clip clearly takes the centre */
+    let cur=st.voice && st.voice.isConnected ? st.voice : null;
+    const onScreen=v=>{const r=v.getBoundingClientRect(); return r.right>innerWidth*0.15 && r.left<innerWidth*0.85;};
+    const hit=vids.find(v=>{const r=v.getBoundingClientRect(); return r.left<=cx && r.right>=cx;});
+    if(!cur || !onScreen(cur)) cur = hit || null;
+    else if(hit && hit!==cur && st.items[+hit.closest(".s").dataset.k]!==st.items[+cur.closest(".s").dataset.k]){
+      const r=hit.getBoundingClientRect(); if(Math.abs((r.left+r.right)/2-cx) < r.width*0.3) cur=hit;
+    }
+    st.voice=cur;
+    vids.forEach(v=>{ const m=(v!==cur)||globalPause; if(v.muted!==m){ v.muted=m; if(!m){ v.volume=1; v.play().catch(()=>{}); } } });
+  }
+},400);
+
+/* lightbox */
+const lb=document.getElementById("lb"), lbStage=document.getElementById("lb-stage"), lbCount=document.getElementById("lb-count");
+let lbItems=[], lbIdx=0, lbReturn=null;
+function showLb(){
+  const src=lbItems[lbIdx];
+  lbStage.innerHTML = src.endsWith(".mp4")
+    ? `<video src="img/${src}" autoplay loop playsinline controls></video>`
+    : `<img src="img/${src}" alt="">`;
+  lbCount.textContent = `${lbIdx+1} / ${lbItems.length}`;
+}
+function openLb(st,k){ lbItems=st.items; lbIdx=k; lbReturn=document.activeElement; globalPause=true; lb.hidden=false; document.body.style.overflow="hidden"; showLb(); document.getElementById("lb-close").focus(); }
+function closeLb(){ lb.hidden=true; lbStage.innerHTML=""; globalPause=false; document.body.style.overflow=""; loops.forEach(st=>{st.paused=false; st.setPlay(true);}); if(lbReturn) lbReturn.focus({preventScroll:true}); }
+function stepLb(d){ lbIdx=(lbIdx+d+lbItems.length)%lbItems.length; showLb(); }
+document.getElementById("lb-close").addEventListener("click",closeLb);
+document.getElementById("lb-prev").addEventListener("click",()=>stepLb(-1));
+document.getElementById("lb-next").addEventListener("click",()=>stepLb(1));
+lb.addEventListener("click",e=>{ if(e.target===lb) closeLb(); });
+document.addEventListener("keydown",e=>{ if(lb.hidden) return; if(e.key==="Escape") closeLb(); if(e.key==="ArrowLeft") stepLb(-1); if(e.key==="ArrowRight") stepLb(1); });
+let tx=null; lb.addEventListener("touchstart",e=>{tx=e.touches[0].clientX},{passive:true});
+lb.addEventListener("touchend",e=>{ if(tx===null) return; const d=e.changedTouches[0].clientX-tx; if(Math.abs(d)>50) stepLb(d<0?1:-1); tx=null; });
+
+const pickBtn = document.getElementById("pick-btn"), pickList = document.getElementById("pick-list");
+function renderHero(){
+  document.getElementById("pick-label").textContent = t("opts")[heroIdx];
+  pickList.innerHTML = t("opts").map((o,i)=>`<li><button type="button" role="option" aria-selected="${i===heroIdx}" data-h="${i}">${o}</button></li>`).join("");
+  document.querySelector(".ah-typed").setAttribute("aria-label", t("typed").join(" "));
+}
+let tyI=0, tyTimer=null;
+function typeLoop(){
+  clearTimeout(tyTimer); const el=document.getElementById("typed"); const words=t("typed");
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches){ el.textContent=words[0]; return; }
+  const w=words[tyI%words.length]; let n=0, dir=1;
+  (function step(){
+    n+=dir; el.textContent=w.slice(0,n);
+    if(dir>0 && n>=w.length){ dir=-1; tyTimer=setTimeout(step,1600); return; }
+    if(dir<0 && n<=0){ tyI++; tyTimer=setTimeout(typeLoop,250); return; }
+    tyTimer=setTimeout(step, dir>0?70:35);
+  })();
+}
+pickBtn.addEventListener("click",()=>{const o=pickList.hidden; pickList.hidden=!o; pickBtn.setAttribute("aria-expanded",String(o));});
+pickList.addEventListener("click",e=>{const b=e.target.closest("button[data-h]"); if(!b) return; heroIdx=+b.dataset.h; pickList.hidden=true; pickBtn.setAttribute("aria-expanded","false"); renderHero();});
+document.addEventListener("click",e=>{ if(!e.target.closest(".pick")){pickList.hidden=true; pickBtn.setAttribute("aria-expanded","false");} });
+
+let filter = "all";
+function renderGrid(){
+  document.getElementById("grid").innerHTML = CASES.map(c=>`
+    <a class="work" href="#${c.id}" ${filter!=="all"&&!c.cat.includes(filter)?"hidden":""}>
+      <div class="thumb"><img src="${c.cover}" alt="${c.title}" loading="lazy"></div>
+      <h3>${c.title}</h3>
+      <p class="m">${L(c.short)}</p>
+      <p class="m">${c.year}</p>
+    </a>`).join("");
+}
+document.querySelectorAll(".filters button").forEach(b=>b.addEventListener("click",()=>{
+  filter=b.dataset.f; document.querySelectorAll(".filters button").forEach(x=>x.setAttribute("aria-pressed",String(x===b))); renderGrid();
+}));
+
+function renderCase(c){
+  if(c.story) return renderCaseStory(c);
+  return renderCaseCarousel(c);
+}
+function renderCaseStory(c){
+  const i = CASES.indexOf(c), n = CASES[(i+1)%CASES.length], ST=STORY_T[lang];
+  const el = document.getElementById("case"); const st = renderStory(c, el);
+  el.innerHTML = `
+  <div class="wrap case-top">
+    <a class="back" href="#work">${t("back")}</a>
+    <div class="st-top"><span class="eyebrow">${L(c.tag)} · ${c.year}</span>${c.link?`<a class="live-link" href="${c.link}" target="_blank" rel="noopener">${c.link.replace(/^https?:\/\/(www\.)?/,"").replace(/\/$/,"")} ↗</a>`:""}</div>
+    <h1>${L(c.story_title)}</h1>
+    <div class="metarow" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">
+      <div><small>${t("role")}</small>${L(c.role)}</div>
+      <div><small>${ST.scope}</small>${L(c.scope)}</div>
+      <div><small>${c.plat?L(c.plat.k):ST.platform}</small>${c.plat?L(c.plat.v):"Tilda"}</div>
+      <div><small>${ST.timeline}</small>${L(c.timeline)}</div>
+    </div>
+    ${c.hero?`<div class="st-hero">${c.hero.endsWith(".mp4")?`<video src="img/${c.hero}" autoplay muted loop playsinline controls></video>`:`<img src="img/${c.hero}" alt="">`}</div>`:""}
+  </div>
+  ${st.html}
+  <section class="next"><div class="wrap"><div><small>${t("next")}</small><a class="big" href="#${n.id}">${n.title} →</a></div><a class="btn" href="#contact">${t("nav_contact")}</a></div></section>`;
+  el.querySelectorAll(".st-m").forEach(b=>b.addEventListener("click",()=>openLb({items:st.all},+b.dataset.k)));
+}
+function renderCaseCarousel(c){
+  const i = CASES.indexOf(c), n = CASES[(i+1)%CASES.length];
+  const el = document.getElementById("case");
+  el.innerHTML = `
+  <div class="wrap case-top">
+    <a class="back" href="#work">${t("back")}</a>
+    <div class="eyebrow">${L(c.tag)} · ${c.year}</div>
+    <h1>${c.title}</h1>
+    <p class="intro">${L(c.intro)}</p>
+    <div class="metarow">
+      <div><small>${t("client")}</small>${c.title.split(":")[0]}</div>
+      <div><small>${t("role")}</small>${L(c.role)}</div>
+      <div><small>${t("year")}</small>${c.year}${c.link?` · <a href="${c.link}" target="_blank" rel="noopener">${t("live")}</a>`:""}</div>
+    </div>
+  </div>
+  <div class="marquee" id="mq-case" style="--h:620px;--hm:340px"></div>
+  <section class="block"><div class="wrap">
+    <div class="head"><h2>${t("did")}</h2></div>
+    <ul class="facts">${L(c.facts).map(f=>`<li>${f}</li>`).join("")}</ul>
+    ${c.before?`<div class="ba" style="margin-top:56px">
+      <figure><img src="${c.before.img}" alt="" loading="lazy"><figcaption>${t("before")}</figcaption></figure>
+      <figure><img src="${c.before.after}" alt="" loading="lazy"><figcaption>${t("after")}</figcaption></figure></div>`:""}
+  </div></section>
+  <section class="next"><div class="wrap"><div><small>${t("next")}</small><a class="big" href="#${n.id}">${n.title} →</a></div><a class="btn" href="#contact">${t("nav_contact")}</a></div></section>`;
+  const mq = document.getElementById("mq-case");
+  if(c.slides.length>1) buildMarquee(mq, c.slides, 80);
+  else mq.innerHTML = `<div class="wrap"><img src="img/${c.slides[0]}" alt="${c.title}" style="border-radius:18px;width:100%"></div>`;
+}
+
+function route(){
+  const id = location.hash.slice(1);
+  const c = CASES.find(x=>x.id===id);
+  const home = document.getElementById("home"), cs = document.getElementById("case");
+  if(c){ home.hidden=true; cs.hidden=false; renderCase(c); fixWidows(cs); window.scrollTo(0,0); }
+  else { cs.hidden=true; cs.innerHTML=""; home.hidden=false;
+    if(id){ const s=document.getElementById(id); if(s) requestAnimationFrame(()=>s.scrollIntoView()); } }
+}
+
+function fixWidows(root){
+  const re=/(^|[\s(«„])([A-Za-zÀ-žА-Яа-яЁё]{1,2})\s+/g;
+  const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>{const p=n.parentNode&&n.parentNode.nodeName; return (p==="SCRIPT"||p==="STYLE")?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT;}});
+  let n; while((n=w.nextNode())){ if(n.nodeValue.length<4) continue; const v=n.nodeValue.replace(re,(m,a,b)=>a+b+"\u00a0").replace(re,(m,a,b)=>a+b+"\u00a0"); if(v!==n.nodeValue) n.nodeValue=v; }
+}
+function applyLang(){
+  document.documentElement.lang = {en:"en",cz:"cs",ru:"ru"}[lang];
+  document.querySelectorAll("[data-i]").forEach(e=>{const v=t(e.dataset.i); if(typeof v==="string") e.textContent=v;});
+  LANGS.forEach(l=>document.getElementById("lang-"+l).setAttribute("aria-pressed",String(l===lang)));
+  renderHero(); tyI=0; typeLoop(); renderGrid(); renderTesti();
+  const oc=CASES.find(x=>x.id===location.hash.slice(1)); if(oc && !document.getElementById("case").hidden) renderCase(oc);
+  fixWidows(document.body);
+}
+LANGS.forEach(l=>document.getElementById("lang-"+l).addEventListener("click",()=>{lang=l;try{localStorage.setItem("lang",l)}catch(e){} applyLang();}));
+window.addEventListener("hashchange",route);
+
+buildMarquee(document.getElementById("mq-motion"), MOTION, 70);
+buildMarquee(document.getElementById("mq-pack"), ["pkn_2.jpg","pkn_1.jpg","pkn_6.jpg","pkn_3.jpg","pkn_4.jpg","pkn_5.jpg"], 60);
+applyLang(); route();
+</script>
+</body>
+</html>
